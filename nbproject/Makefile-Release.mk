@@ -21,7 +21,7 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=Cygwin-Windows
+CND_PLATFORM=Cygwin_4.x-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist
@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/LP_Utils.o \
 	${OBJECTDIR}/Menu.o \
 	${OBJECTDIR}/Order.o \
+	${OBJECTDIR}/Product.o \
 	${OBJECTDIR}/Worker.o \
 	${OBJECTDIR}/main.o
 
@@ -92,6 +93,11 @@ ${OBJECTDIR}/Order.o: Order.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Order.o Order.c
+
+${OBJECTDIR}/Product.o: Product.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Product.o Product.c
 
 ${OBJECTDIR}/Worker.o: Worker.c 
 	${MKDIR} -p ${OBJECTDIR}

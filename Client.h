@@ -49,7 +49,8 @@ typedef struct {
     char password[C_PASSWORD_LENGTH];
     char name[C_NAME_LENGTH];
     CreditCard creditCard;
-    long phoneNumber;
+    long phoneNumber1;
+    long phoneNumber2;
 } Client;
 
 

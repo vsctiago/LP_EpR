@@ -3,144 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Client.h"
-
-void setBI(Client *c, int pos) {
-    readLong(&c[pos].bi, C_BI_MIN, C_BI_MAX, C_MSG_BI);
-}
-
-void setPassword(Client *c, int pos) {
-    readString(c[pos].password, C_PASSWORD_LENGTH, C_MSG_PASSWORD);
-}
-
-void setName(Client *c, int pos) {
-    readString(c[pos].name, C_NAME_LENGTH, C_MSG_NAME);
-}
-
-void setCreditCard(Client *c, int pos) {
-    puts("Insert CreditCard:::");
-    readLong(&c[pos].creditCard.bankNumber, C_BANKNUMBER_MIN, C_BANKNUMBER_MAX, C_MSG_BANKNUMBER);
-    readLong(&c[pos].creditCard.accountNumber, C_ACCOUNTNUMBER_MIN, C_ACCOUNTNUMBER_MAX, C_MSG_ACCOUNTNUMBER);
-}
-
-void setPhoneNumber(Client *c, int pos) {
-    bool val = false;
-    do {
-        readLong(&c[pos].phoneNumber, C_PHONENUMBER_MIN, C_PHONENUMBER_MAX, C_MSG_PHONENUMBER);
-        if(c[pos].phoneNumber > 960000000 && c[pos].phoneNumber < 969999999 ||
-                c[pos].phoneNumber > 930000000 && c[pos].phoneNumber < 939999999 ||
-                c[pos].phoneNumber > 920000000 && c[pos].phoneNumber < 929999999 ||
-                c[pos].phoneNumber > 910000000 && c[pos].phoneNumber < 919999999) {
-            val = true;
-        } else {
-            puts("Error: Number invalid!!");
-        }
-    } while(val == false);
-}
-
-bool verifyIfClientsFull(int *cCount) {
-    if(*cCount == CLIENTS_SIZE) {
-        puts(C_ERROR_MSG_FULL);
-        return true;
-    } else {
-        return false;
-    }
-}
-
-int verifyIfClientBIExist(Client *c, long bi, int *cCount) {
-    int pos;
-    for(pos=0; pos<*cCount; pos++) {
-        if(c[pos].bi == bi) {
-            return pos;
-        }
-    }
-    return EOF;
-}
-
-long loginClient(Client *c, int *cCount) {
-    int pos, tempBI;
-    char tempPASS[C_PASSWORD_LENGTH];
-    
-    readLong(&tempBI, C_BI_MIN, C_BI_MAX, C_MSG_BI);
-    pos = verifyIfClientBIExist(c, tempBI, cCount);
-    if(pos != EOF) {
-        readString(tempPASS, C_PASSWORD_LENGTH, C_MSG_PASSWORD);
-        if(strcmp(tempPASS, c[pos].password) == 0) {
-            return tempBI;
-        } else {
-            puts(C_ERROR_MSG_PASS_WRONG);
-            return EOF;
-        }
-    } else {
-        puts(C_ERROR_MSG_BI_NOTFOUND);
-        return EOF;
-    }
-}
-
-void addClient(Client *c, int *cCount) {
-    long cBI;
-    
-    if(verifyIfClientsFull(cCount) == false) {
-        readLong(&cBI, C_BI_MIN, C_BI_MAX, C_MSG_BI);
-        if(verifyIfClientBIExist(c, cBI, cCount) == EOF) {
-            c[*cCount].bi = cBI;
-            setPassword(c, *cCount);
-            setName(c, *cCount);
-            setCreditCard(c, *cCount);
-            setPhoneNumber(c, *cCount);
-            *cCount += 1;
-            saveClientsFile(c);
-            saveClientCountFile(cCount);
-        } else {
-            puts(C_ERROR_MSG_BI_EXISTS);
-        }
-    }
-}
-
-void listClients(Client *c, int *cCount) {
-    int pos;
-    
-    for(pos=0; pos<*cCount; pos++) {
-            printf("[%d] BI: %ld | %s\n", pos, c[pos].bi, c[pos].name);
-    }
-}
-
-void editClient(Client *c, int *cCount) {
-    int cBI;
-    int pos;
-    
-    listClients(c, cCount);
-    readInt(&cBI, C_BI_MIN, C_BI_MAX, "Which Client to Edit(BI): ");
-    pos = verifyIfClientBIExist(c, cBI, cCount);
-    if(pos != EOF){
-        setPassword(c, pos);
-        setName(c, pos);
-        setCreditCard(c, pos);
-        setPhoneNumber(c, pos);
-        saveClientsFile(c);
-        saveClientCountFile(cCount);
-    } else {
-        puts(C_ERROR_MSG_BI_NOTFOUND);
-    }
-}
-
-void removeClient(Client *c, int *cCount) {
-    int cBI;
-    int pos;
-    
-    listClients(c, cCount);
-    readLong(&cBI, C_BI_MIN, C_BI_MAX, "Which Client to Remove(BI): ");
-    pos = verifyIfClientBIExist(c, cBI, cCount);
-    if(pos != EOF) {
-        for(pos; pos<*cCount-1; pos++) {
-            c[pos] = c[pos+1];
-        }
-        (*cCount)--;
-        saveClientsFile(c);
-        saveClientCountFile(cCount);
-    } else {
-        puts(C_ERROR_MSG_BI_NOTFOUND);
-    }
-}
+#include "LP_Leitura.h"
 
 void createClientsFile(Client c[]) {
     FILE *pClients = fopen("Clients", "w");
@@ -213,6 +76,144 @@ int readClientCountFile(int *cCount) {
     } else {
         fread(cCount, sizeof(int), 1, pCcount);
         fclose(pCcount);
+    }
+}
+
+void setBI(Client *c, int pos) {
+    readLong(&c[pos].bi, C_BI_MIN, C_BI_MAX, C_MSG_BI);
+}
+
+void setPassword(Client *c, int pos) {
+    readString(c[pos].password, C_PASSWORD_LENGTH, C_MSG_PASSWORD);
+}
+
+void setName(Client *c, int pos) {
+    readString(c[pos].name, C_NAME_LENGTH, C_MSG_NAME);
+}
+
+void setCreditCard(Client *c, int pos) {
+    puts("Insert CreditCard:::");
+    readLong(&c[pos].creditCard.bankNumber, C_BANKNUMBER_MIN, C_BANKNUMBER_MAX, C_MSG_BANKNUMBER);
+    readLong(&c[pos].creditCard.accountNumber, C_ACCOUNTNUMBER_MIN, C_ACCOUNTNUMBER_MAX, C_MSG_ACCOUNTNUMBER);
+}
+
+void setPhoneNumber(Client *c, int pos) {
+    bool val = false;
+    do {
+        readLong(&c[pos].phoneNumber1, C_PHONENUMBER_MIN, C_PHONENUMBER_MAX, C_MSG_PHONENUMBER);
+        if(c[pos].phoneNumber1 > 960000000 && c[pos].phoneNumber1 < 969999999 ||
+                c[pos].phoneNumber1 > 930000000 && c[pos].phoneNumber1 < 939999999 ||
+                c[pos].phoneNumber1 > 920000000 && c[pos].phoneNumber1 < 929999999 ||
+                c[pos].phoneNumber1 > 910000000 && c[pos].phoneNumber1 < 919999999) {
+            val = true;
+        } else {
+            puts("Error: Number invalid!!");
+        }
+    } while(val == false);
+}
+
+bool verifyIfClientsFull(int *cCount) {
+    if(*cCount == CLIENTS_SIZE) {
+        puts(C_ERROR_MSG_FULL);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+int verifyIfClientBIExist(Client *c, long bi, int *cCount) {
+    int pos;
+    for(pos=0; pos<*cCount; pos++) {
+        if(c[pos].bi == bi) {
+            return pos;
+        }
+    }
+    return EOF;
+}
+
+long loginClient(Client *c, int *cCount) {
+    int pos, tempBI;
+    char tempPASS[C_PASSWORD_LENGTH];
+    
+    readLong(&tempBI, C_BI_MIN, C_BI_MAX, C_MSG_BI);
+    pos = verifyIfClientBIExist(c, tempBI, cCount);
+    if(pos != EOF) {
+        readString(tempPASS, C_PASSWORD_LENGTH, C_MSG_PASSWORD);
+        if(strcmp(tempPASS, c[pos].password) == 0) {
+            return tempBI;
+        } else {
+            puts(C_ERROR_MSG_PASS_WRONG);
+            return EOF;
+        }
+    } else {
+        puts(C_ERROR_MSG_BI_NOTFOUND);
+        return EOF;
+    }
+}
+
+void addClient(Client *c, int *cCount) {
+    long cBI;
+    
+    if(verifyIfClientsFull(cCount) == false) {
+        readLong(&cBI, C_BI_MIN, C_BI_MAX, C_MSG_BI);
+        if(verifyIfClientBIExist(c, cBI, cCount) == EOF) {
+            c[*cCount].bi = cBI;
+            setPassword(c, *cCount);
+            setName(c, *cCount);
+            setCreditCard(c, *cCount);
+            setPhoneNumber(c, *cCount);
+            (*cCount)++;
+            saveClientsFile(c);
+            saveClientCountFile(cCount);
+        } else {
+            puts(C_ERROR_MSG_BI_EXISTS);
+        }
+    }
+}
+
+void editClient(Client *c, int *cCount) {
+    int cBI;
+    int pos;
+    
+    listClients(c, cCount);
+    readInt(&cBI, C_BI_MIN, C_BI_MAX, "Which Client to Edit(BI): ");
+    pos = verifyIfClientBIExist(c, cBI, cCount);
+    if(pos != EOF){
+        setPassword(c, pos);
+        setName(c, pos);
+        setCreditCard(c, pos);
+        setPhoneNumber(c, pos);
+        saveClientsFile(c);
+        saveClientCountFile(cCount);
+    } else {
+        puts(C_ERROR_MSG_BI_NOTFOUND);
+    }
+}
+
+void removeClient(Client *c, int *cCount) {
+    int cBI;
+    int pos;
+    
+    listClients(c, cCount);
+    readLong(&cBI, C_BI_MIN, C_BI_MAX, "Which Client to Remove(BI): ");
+    pos = verifyIfClientBIExist(c, cBI, cCount);
+    if(pos != EOF) {
+        for(pos; pos<*cCount-1; pos++) {
+            c[pos] = c[pos+1];
+        }
+        (*cCount)--;
+        saveClientsFile(c);
+        saveClientCountFile(cCount);
+    } else {
+        puts(C_ERROR_MSG_BI_NOTFOUND);
+    }
+}
+
+void listClients(Client *c, int *cCount) {
+    int pos;
+    
+    for(pos=0; pos<*cCount; pos++) {
+            printf("[%d] BI: %ld | %s\n", pos, c[pos].bi, c[pos].name);
     }
 }
 

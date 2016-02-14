@@ -49,6 +49,7 @@ typedef struct {
     int number;
     char postalCode[O_POSTALCODE_LENGTH];
     char city[O_CITY_LENGTH];
+    Coordinates coord;
 } Address;
 
 // STRUCT ORDERLINES
@@ -69,9 +70,9 @@ typedef struct {
     Date actualDeliveryDate;
     Worker deliveryman;
     OrderLine lines[O_ORDERLINE_LENGTH];
+    int contlines;
     float serviceCost;
     Address address;
-    Coordinates coord;
     float totalPrice;
     bool delivered;
 } Order;

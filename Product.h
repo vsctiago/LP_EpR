@@ -14,7 +14,7 @@ extern "C" {
 
 
     // LIMITS TO VARIABLES
-#define PRODUCT_SIZE 100
+#define PRODUCTS_SIZE 100
 #define P_ID_MIN 1
 #define P_ID_MAX 9999999
 #define P_NAME_LENGTH 50+1
@@ -26,9 +26,13 @@ extern "C" {
 #define P_MSG_DESCRIPTION "Insert description: "
 
     // ERROR MESSAGES
-#define P_ERROR_MSG_FULL "ERROR: Full, can't add more product. "
-#define P_ERROR_MSG_ID_NOTFOUND "ERROR: ID not found! "
+#define P_ERROR_MSG_FULL "ERROR: Full, can't add more product.\n"
+#define P_ERROR_MSG_ID_NOTFOUND "ERROR: ID not found!\n"
 
+    // NOMES DE FICHEIROS
+#define P_FILE_NAME "Products"
+#define P_FILE_NAME_COUNT "ProductCount" 
+    
     typedef struct {
         int id;
         char name[P_NAME_LENGTH];

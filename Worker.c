@@ -3,26 +3,96 @@
 #include <stdlib.h>
 #include "Worker.h"
 
-void setBI(Worker *w, int pos) {
-    readLong(&w[pos].bi, W_BI_MIN, W_BI_MAX, W_MSG_BI);
+void createWorkersFile(Worker w[]) {
+    FILE *pWorkers = fopen(W_FILE_NAME, "w");
+    if (pWorkers == (FILE*) NULL) {
+        printf("Couldn't create %s File. ", W_FILE_NAME);
+    } else {
+        fwrite(w, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        fclose(pWorkers);
+    }
 }
 
-void setName(Worker *w, int pos) {
+void saveWorkersFile(Worker w[]) {
+    FILE *pWorkers = fopen(W_FILE_NAME, "w");
+    if (pWorkers == (FILE *) NULL) {
+        puts("%s file doesn't exist.", W_FILE_NAME);
+        puts("Couldn't save %s file.", W_FILE_NAME);
+    } else {
+        fwrite(w, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        puts("%s file saved.", W_FILE_NAME);
+        fclose(pWorkers);
+    }
+}
+
+Worker readWorkersFile(Worker w[]) {
+
+    FILE *pWorkers = fopen(W_FILE_NAME, "r");
+    if (pWorkers == (FILE *) NULL) {
+        puts("%s file doesn't exist", W_FILE_NAME);
+        puts("Creating %s file now...", W_FILE_NAME);
+        createWorkersFile(w);
+        puts("%s file created");
+        //readWorkersFile(w);
+    } else {
+        fread(w, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        fclose(pWorkers);
+    }
+}
+
+void createWorkerCountFile(int *wCount) {
+    FILE *pWcount = fopen(W_FILE_NAME_COUNT, "w");
+    if (pWcount == (FILE*) NULL) {
+        printf("Couldn't create %s File. ", W_FILE_NAME_COUNT);
+    } else {
+        fwrite(wCount, sizeof (int), 1, pWcount);
+        fclose(pWcount);
+    }
+}
+
+void saveWorkerCountFile(int *wCount) {
+    FILE *pWcount = fopen(W_FILE_NAME_COUNT, "w");
+    if (pWcount == (FILE *) NULL) {
+        puts("%s file doesn't exist.", W_FILE_NAME_COUNT);
+        puts("Couldn't save %s file.", W_FILE_NAME_COUNT);
+    } else {
+        fwrite(wCount, sizeof (int), 1, pWcount);
+        puts("%s file saved.", W_FILE_NAME_COUNT);
+        fclose(pWcount);
+    }
+}
+
+int readWorkerCountFile(int *wCount) {
+
+    FILE *pWcount = fopen(W_FILE_NAME_COUNT, "r");
+    if (pWcount == (FILE *) NULL) {
+        puts("%s file doesn't exist", W_FILE_NAME_COUNT);
+        puts("Creating %s file now...", W_FILE_NAME_COUNT);
+        createWorkerCountFile(wCount);
+        puts("%s file created", W_FILE_NAME_COUNT);
+        //readWorkerCountFile(wCount);
+    } else {
+        fread(wCount, sizeof (int), 1, pWcount);
+        fclose(pWcount);
+    }
+}
+
+void setWorkerName(Worker *w, int pos) {
     readString(w[pos].name, W_NAME_LENGTH, W_MSG_NAME);
 }
 
-void setType(Worker *w, int pos) {
+void setWorkerType(Worker *w, int pos) {
     int temp;
-    printf("WorkerType [1] Handling | [2] Delivery");
+    printf("%s", W_MSG_WORKER_TYPE);
     readInt(&temp, W_TYPE_MIN, W_TYPE_MAX, W_MSG_TYPE);
-    if(temp == 1)
+    if (temp == 1)
         w[pos].type = 1;
     else
         w[pos].type = 2;
 }
 
 bool verifyIfWorkersFull(int *wCount) {
-    if(*wCount == WORKERS_SIZE) {
+    if (*wCount == WORKERS_SIZE) {
         puts(W_ERROR_MSG_FULL);
         return true;
     } else {
@@ -32,8 +102,8 @@ bool verifyIfWorkersFull(int *wCount) {
 
 int verifyIfWorkerBIExist(Worker *w, long bi, int *wCount) {
     int pos;
-    for(pos=0; pos<*wCount; pos++) {
-        if(w[pos].bi == bi) {
+    for (pos = 0; pos<*wCount; pos++) {
+        if (w[pos].bi == bi) {
             return pos;
         }
     }
@@ -43,12 +113,12 @@ int verifyIfWorkerBIExist(Worker *w, long bi, int *wCount) {
 long loginWorker(Worker *w, int *wCount) {
     int pos, tempBI;
     char tempPASS[W_PASSWORD_LENGTH];
-    
+
     readLong(&tempBI, W_BI_MIN, W_BI_MAX, W_MSG_BI);
     pos = verifyIfWorkerBIExist(w, tempBI, wCount);
-    if(pos != EOF) {
+    if (pos != EOF) {
         readString(tempPASS, W_PASSWORD_LENGTH, W_MSG_PASSWORD);
-        if(strcmp(tempPASS, w[pos].password) == 0) {
+        if (strcmp(tempPASS, w[pos].password) == 0) {
             return tempBI;
         } else {
             puts(W_ERROR_MSG_PASS_WRONG);
@@ -62,13 +132,13 @@ long loginWorker(Worker *w, int *wCount) {
 
 void addWorker(Worker *w, int *wCount) {
     long wBI;
-    
-    if(verifyIfWorkersFull(wCount) == false) {
+
+    if (verifyIfWorkersFull(wCount) == false) {
         readLong(&wBI, W_BI_MIN, W_BI_MAX, W_MSG_BI);
-        if(verifyIfWorkerBIExist(w, wBI, wCount) == EOF) {
+        if (verifyIfWorkerBIExist(w, wBI, wCount) == EOF) {
             w[*wCount].bi = wBI;
-            setName(w, *wCount);
-            setType(w, *wCount);
+            setWorkerName(w, *wCount);
+            setWorkerType(w, *wCount);
             *wCount += 1;
             saveWorkersFile(w);
             saveWorkerCountFile(wCount);
@@ -80,22 +150,22 @@ void addWorker(Worker *w, int *wCount) {
 
 void listWorkers(Worker *w, int *wCount) {
     int pos;
-    
-    for(pos=0; pos<*wCount; pos++) {
-            printf("[%d] BI: %ld | %s\n", pos, w[pos].bi, w[pos].name);
+
+    for (pos = 0; pos<*wCount; pos++) {
+        printf("[%d] BI: %ld | %s\n", pos, w[pos].bi, w[pos].name);
     }
 }
 
 void editWorker(Worker *w, int *wCount) {
     int wBI;
     int pos;
-    
+
     listWorkers(w, wCount);
     readInt(&wBI, W_BI_MIN, W_BI_MAX, "Which Worker to Edit(BI): ");
     pos = verifyIfWorkerBIExist(w, wBI, wCount);
-    if(pos != EOF){
-        setName(w, pos);
-        setType(w, pos);
+    if (pos != EOF) {
+        setWorkerName(w, pos);
+        setWorkerType(w, pos);
         saveWorkersFile(w);
         saveWorkerCountFile(wCount);
     } else {
@@ -106,13 +176,13 @@ void editWorker(Worker *w, int *wCount) {
 void removeWorker(Worker *w, int *wCount) {
     int wBI;
     int pos;
-    
+
     listWorkers(w, wCount);
     readLong(&wBI, W_BI_MIN, W_BI_MAX, "Which Worker to Remove(BI): ");
     pos = verifyIfWorkerBIExist(w, wBI, wCount);
-    if(pos != EOF) {
-        for(pos; pos<*wCount-1; pos++) {
-            w[pos] = w[pos+1];
+    if (pos != EOF) {
+        for (pos; pos<*wCount - 1; pos++) {
+            w[pos] = w[pos + 1];
         }
         (*wCount)--;
         saveWorkersFile(w);
@@ -121,78 +191,3 @@ void removeWorker(Worker *w, int *wCount) {
         puts(W_ERROR_MSG_BI_NOTFOUND);
     }
 }
-
-void createWorkersFile(Worker w[]) {
-    FILE *pWorkers = fopen("Workers", "w");
-    if(pWorkers == (FILE*) NULL){
-        printf("Couldn't create Workers File. ");
-    } else {
-        fwrite(w, sizeof(Worker), WORKERS_SIZE, pWorkers);
-        fclose(pWorkers);
-    }   
-}
-
-void saveWorkersFile(Worker w[]) {
-    FILE *pWorkers = fopen("Workers", "w");
-    if(pWorkers == (FILE *) NULL) {
-        puts("Workers file doesn't exist.");
-        puts("Couldn't save Workers file.");
-    } else {
-        fwrite(w, sizeof(Worker), WORKERS_SIZE, pWorkers);
-        puts("Workers file saved.");
-        fclose(pWorkers);
-    }
-}
-
-Worker readWorkersFile(Worker w[]) {
-    
-    FILE *pWorkers = fopen("Workers", "r");
-    if(pWorkers == (FILE *) NULL) {
-        puts("Workers file doesn't exist");
-        puts("Creating Workers file now...");
-        createWorkersFile(w);
-        puts("Workers file created");
-        readWorkersFile(w);
-    } else {
-        fread(w, sizeof(Worker), WORKERS_SIZE, pWorkers);
-        fclose(pWorkers);
-    }
-}
-
-void createWorkerCountFile(int *wCount) {
-    FILE *pWcount = fopen("WorkerCount", "w");
-    if(pWcount == (FILE*) NULL){
-        printf("Couldn't create WorkerCount File. ");
-    } else {
-        fwrite(wCount, sizeof(int), 1, pWcount);
-        fclose(pWcount);
-    }   
-}
-
-void saveWorkerCountFile(int *wCount) {
-    FILE *pWcount = fopen("WorkerCount", "w");
-    if(pWcount == (FILE *) NULL) {
-        puts("WorkerCount file doesn't exist.");
-        puts("Couldn't save WorkerCount file.");
-    } else {
-        fwrite(wCount, sizeof(int), 1, pWcount);
-        puts("WorkerCount file saved.");
-        fclose(pWcount);
-    }
-}
-
-int readWorkerCountFile(int *wCount) {
-    
-    FILE *pWcount = fopen("WorkerCount", "r");
-    if(pWcount == (FILE *) NULL) {
-        puts("WorkerCount file doesn't exist");
-        puts("Creating WorkerCount file now...");
-        createWorkerCountFile(wCount);
-        puts("WorkerCount file created");
-        readWorkerCountFile(wCount);
-    } else {
-        fread(wCount, sizeof(int), 1, pWcount);
-        fclose(pWcount);
-    }
-}
-

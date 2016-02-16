@@ -27,13 +27,18 @@
 #define W_MSG_BI "Insert BI: "
 #define W_MSG_PASSWORD "Insert Password: "
 #define W_MSG_NAME "Insert name: "
+#define W_MSG_WORKER_TYPE "WorkerType:\n\t[1] Handling\n\t[2] Delivery\n\t"
 #define W_MSG_TYPE "Insert Type: "
 
 // ERROR MESSAGES
-#define W_ERROR_MSG_FULL "ERROR: Full, can't add more workers. "
-#define W_ERROR_MSG_BI_EXISTS "ERROR: That BI already exists. "
-#define W_ERROR_MSG_BI_NOTFOUND "ERROR: Worker BI not found. "
-#define W_ERROR_MSG_PASS_WRONG "ERROR: Wrong Password. "
+#define W_ERROR_MSG_FULL "ERROR: Full, can't add more workers.\n"
+#define W_ERROR_MSG_BI_EXISTS "ERROR: That BI already exists.\n"
+#define W_ERROR_MSG_BI_NOTFOUND "ERROR: Worker BI not found.\n"
+#define W_ERROR_MSG_PASS_WRONG "ERROR: Wrong Password.\n"
+
+    // NOMES DE FICHEIROS
+#define W_FILE_NAME "Worker"
+#define W_FILE_NAME_COUNT "OrderWorker" 
 
 typedef enum {
     HANDLING = 1, DELIVERY

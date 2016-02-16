@@ -49,31 +49,9 @@ typedef struct {
     char password[C_PASSWORD_LENGTH];
     char name[C_NAME_LENGTH];
     CreditCard creditCard;
-    long phoneNumber;
+    long phoneNumber1;
+    long phoneNumber2;
 } Client;
-
-
-void setBI(Client *c, int pos);
-void setPassword(Client *c, int pos);
-void setName(Client *c, int pos);
-void setCreditCard(Client *c, int pos);
-void setPhoneNumber(Client *c, int pos);
-void setStreet(Client *c, int pos);
-void setNumber(Client *c, int pos);
-void setPostalCode(Client *c, int pos);
-void setCity(Client *c, int pos);
-bool verifyIfClientsFull(int *cCount);
-int verifyIfClientBIExist(Client *c, long bi, int *cCount);
-void addClient(Client *c, int *cCount);
-void listClients(Client *c, int *cCount);
-void editClient(Client *c, int *cCount);
-void removeClient(Client *c, int *cCount);
-void createClientsFile(Client c[]);
-void saveClientsFile(Client c[]);
-Client readClientsFile(Client c[]);
-void createClientCountFile(int *cCount);
-void saveClientCountFile(int *cCount);
-int readClientCountFile(int *cCount);
 
 
 #ifdef __cplusplus

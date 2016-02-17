@@ -27,7 +27,7 @@ void saveProductsFile(Product products[]) {
     }
 }
 
-Product readProductsFile(Product products[]) {
+void readProductsFile(Product *products) {
 
     FILE *pProducts = fopen(P_FILE_NAME, "r");
     if (pProducts == (FILE *) NULL) {

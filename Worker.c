@@ -27,7 +27,7 @@ void saveWorkersFile(Worker workers[]) {
     }
 }
 
-Worker readWorkersFile(Worker workers[]) {
+void readWorkersFile(Worker *workers) {
 
     FILE *pWorkers = fopen(W_FILE_NAME, "r");
     if (pWorkers == (FILE *) NULL) {

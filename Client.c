@@ -27,7 +27,7 @@ void saveClientsFile(Client clients[]) {
     }
 }
 
-Client readClientsFile(Client clients[]) {
+void readClientsFile(Client *clients) {
 
     FILE *pClients = fopen("Clients", "r");
     if (pClients == (FILE *) NULL) {
@@ -118,7 +118,7 @@ void setClientPhoneNumber1(Client *clients, int pos) {
         setClientPhoneNumber(&clients[pos].phoneNumber1);
         if(clients[pos].phoneNumber1 == 0)
             printf("Error: Invalid Number - can't be 0!!");
-    } while(clients[pos].phoneNumber1 != 0);
+    } while(clients[pos].phoneNumber1 == 0);
 }
 
 void setClientPhoneNumber2(Client *clients, int pos) {

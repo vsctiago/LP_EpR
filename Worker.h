@@ -54,7 +54,7 @@ typedef struct {
 // METHODS
 void createWorkersFile(Worker workers[]);
 void createWorkersFile(Worker workers[]);
-Worker readWorkersFile(Worker workers[]);
+void readWorkersFile(Worker *workers);
 void createWorkerCountFile(int *wCount);
 void saveWorkerCountFile(int *wCount);
 int readWorkerCountFile(int *wCount);

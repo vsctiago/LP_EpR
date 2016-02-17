@@ -44,7 +44,7 @@ extern "C" {
 // METHODS
 void createProductsFile(Product products[]);
 void saveProductsFile(Product products[]);
-Product readProductsFile(Product products[]);
+void readProductsFile(Product *products);
 void createProductCountFile(int *prCount);
 void saveProductCountFile(int *pCount);
 int readProductCountFile(int *pCount);

@@ -31,7 +31,7 @@ void saveOrdersFile(Order orders[]) {
     }
 }
 
-Order readOrdersFile(Order orders[]) {
+void readOrdersFile(Order *orders) {
 
     FILE *pOrders = fopen(O_FILE_NAME, "r");
     if (pOrders == (FILE *) NULL) {

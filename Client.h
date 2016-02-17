@@ -62,7 +62,7 @@ typedef struct {
 // METHODS
 void createClientsFile(Client clients[]);
 void saveClientsFile(Client clients[]);
-Client readClientsFile(Client clients[]);
+void readClientsFile(Client *clients);
 void createClientCountFile(int *cCount);
 void saveClientCountFile(int *cCount);
 int readClientCountFile(int *cCount);

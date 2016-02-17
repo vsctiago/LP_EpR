@@ -128,7 +128,7 @@ typedef struct {
 // METHODS
 void createOrdersFile(Order orders[]);
 void saveOrdersFile(Order orders[]);
-Order readOrdersFile(Order orders[]);
+void readOrdersFile(Order *orders);
 void createOrderCountFile(int *oCount);
 void saveOrderCountFile(int *oCount);
 int readProductCountFile(int *oCount);

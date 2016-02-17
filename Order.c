@@ -183,7 +183,7 @@ void setOrderCity(Order *orders, int pos) {
 void serOrderAddress() {
 }
 
-void serOrderTotalPrice() {
+void setOrderTotalPrice() {
 }
 
 void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount) {

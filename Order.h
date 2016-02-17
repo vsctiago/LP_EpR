@@ -135,7 +135,7 @@ void setOrderNumber(Order *orders, int pos);
 void setOrderPostalCode(Order *orders, int pos);
 void setOrderCity(Order *orders, int pos);
 void serOrderAddress();
-void serOrderTotalPrice();
+void setOrderTotalPrice();
 void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount);
 void setOrderExpectedDeliveryDate(Order *orders, int pos);
 void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int wCount);

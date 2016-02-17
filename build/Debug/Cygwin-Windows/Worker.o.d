@@ -1,3 +1,5 @@
-build/Debug/Cygwin-Windows/Worker.o: Worker.c Worker.h
+build/Debug/Cygwin-Windows/Worker.o: Worker.c Worker.h LP_Leitura.h
 
 Worker.h:
+
+LP_Leitura.h:

@@ -25,3 +25,10 @@ void cleanInputBuffer(){
 
     while ((ch = getchar()) != CAR_NOVA_LINHA && ch != EOF);
 }
+
+void cleanScreen() {
+    int i=0;
+    for(i=0; i<30; i++) {
+        printf("\n");
+    }
+}

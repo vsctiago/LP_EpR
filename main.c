@@ -19,6 +19,7 @@
 #include "Product.h"
 #include "Order.h"
 #include "Menu.h"
+#include "LP_Leitura.h"
 
 /*
  * 
@@ -38,7 +39,8 @@ int main(int argc, char** argv) {
     
     while(true) {
         mainMenu();
-        readInt(&menuOpt, MENUOPTMIN, MENUOPTMAX, "Select Option: ");
+        readInt(&menuOpt, MENUOPTMIN, MENUOPTMAX, MENU_MSG_OPT);
+        cleanScreen();
         if(menuOpt == 1) {
             addClient(clients, &clientCount);
         } else if(menuOpt == 2) {
@@ -48,10 +50,17 @@ int main(int argc, char** argv) {
                 // BREAK WHILE(TRUE) PA SAIR DO PROGRAMA
             }
         } else if(menuOpt == 3) {
-            workerLogged = loginWorker(workers, &workerCount);
-            if(workerLogged != EOF) {
-                // Administration MENU and sheit
-                // BREAK WHILE(TRUE) PA SAIR DO PROGRAMA
+            manageMenu();
+            readInt(&menuOpt, MENUOPTMIN, MENUOPTMAX, MENU_MSG_OPT);
+            cleanScreen();
+            if(menuOpt == 1) {
+                addWorker(workers, &workerCount);
+            } else if(menuOpt == 2) {
+                workerLogged = loginWorker(workers, &workerCount);
+                if(workerLogged != EOF) {
+                    // Administration MENU and sheit
+                    // BREAK WHILE(TRUE) PA SAIR DO PROGRAMA
+                }
             }
         } else if(menuOpt == 4) {
             break;

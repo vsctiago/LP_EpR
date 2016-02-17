@@ -60,19 +60,17 @@
 #define O_ERROR_MSG_ID_NOTFOUND RED "ERROR: " RESET "ID not found!\n"
 #define O_ERRO_MSG_REMOVE_ORDER RED "YOU SHOULDN'T REMOVE ANY ORDER\n" RESET
 
-// NOMES DE FICHEIROS
+// FILE NAMES
 #define O_FILE_NAME "Orders"
 #define O_FILE_NAME_COUNT "OrderCount" 
 
 // STRUCT COORDINATES
-
 typedef struct {
     float latitude;
     float longitude;
 } Coordinates;
 
 // STRUCT DATE
-
 typedef struct {
     int day;
     int month;
@@ -80,7 +78,6 @@ typedef struct {
 } Date;
 
 // STRUCT ORDERLINES
-
 typedef struct {
     int idProduct;
     int quantity;
@@ -88,7 +85,6 @@ typedef struct {
 } OrderLine;
 
 // STRUCT ADDRESS
-
 typedef struct {
     char street[O_STREET_LENGTH];
     int number;
@@ -98,13 +94,12 @@ typedef struct {
 } Address;
 
 // STRUCT ORDERS
-
 typedef struct {
     int id;
     long clientBI;
     Date orderDate;
     OrderLine lines[O_ORDERLINE_LENGTH];
-    int contlines;
+    int contLines;
     float serviceCost;
     Address address;
     float totalPrice;
@@ -116,35 +111,35 @@ typedef struct {
     bool delivered;
 } Order;
 
-// Métodos
-void createOrdersFile(Order o[]);
-void saveOrdersFile(Order o[]);
-Order readOrdersFile(Order o[]);
+// METHODS
+void createOrdersFile(Order orders[]);
+void saveOrdersFile(Order orders[]);
+Order readOrdersFile(Order orders[]);
 void createOrderCountFile(int *oCount);
 void saveOrderCountFile(int *oCount);
 int readProductCountFile(int *oCount);
-void setOrderId(Order *o, int pos);
-void setOrderDate(Order *o, int pos);
+void setOrderId(Order *orders, int pos);
+void setOrderDate(Order *orders, int pos);
 void setOrderBI(long *bi, char msg[]);
-void setOrderClientBi(Order *o, int pos, Client *c, int *cCount);
-void setOrderApprovalDate(Order *o, int pos);
+void setOrderClientBi(Order *orders, int pos, Client *c, int *cCount);
+void setOrderApprovalDate(Order *orders, int pos);
 void setCurrentDate(Date *date);
 void setDate(Date *date, char msgDate[]);
-void setOrderProductId(Order *o, int pos, Product *p, int *pCount);
-void setOrderProductQuantity(Order *o, int pos);
-void setOrderProductPriceU(Order *o, int pos, float pricePerUnit);
+void setOrderProductId(Order *orders, int pos, Product *products, int *pCount);
+void setOrderProductQuantity(Order *orders, int pos);
+void setOrderProductPriceU(Order *orders, int pos, float pricePerUnit);
 void setOrderLines();
 void serOrderServiceCost();
-void setOrderStreet(Order *o, int pos);
-void setOrderNumber(Order *o, int pos);
-void setOrderPostalCode(Order *o, int pos);
-void setOrderCity(Order *o, int pos);
+void setOrderStreet(Order *orders, int pos);
+void setOrderNumber(Order *orders, int pos);
+void setOrderPostalCode(Order *orders, int pos);
+void setOrderCity(Order *orders, int pos);
 void serOrderAddress();
 void serOrderTotalPrice();
-void setOrderApprovalWorkerBI(Order *o, Worker *w, int pos, int *wCount);
-void setOrderExpectedDeliveryDate(Order *o, int pos);
-void setOrderDeliveryman(Order *o, Worker *w, int pos, int wCount);
-void setOrderActualDeliveryDate(Order *o, int pos);
+void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount);
+void setOrderExpectedDeliveryDate(Order *orders, int pos);
+void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int wCount);
+void setOrderActualDeliveryDate(Order *orders, int pos);
 void addOrder();
 void editOrder();
 void removeOrder();

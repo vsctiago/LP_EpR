@@ -15,13 +15,17 @@
 #define	LP_UTILS_H
 
 
+#define RESET   "\033[0m"
+#define RED "\033[31m"
+
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
-    
+
     void cleanInputBuffer();
-#define RESET   "\033[0m"
-#define RED "\033[31m"
+
+    void cleanScreen();
 
 #ifdef	__cplusplus
 }

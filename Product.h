@@ -30,7 +30,7 @@ extern "C" {
 #define P_ERROR_MSG_FULL "ERROR: Full, can't add more product.\n"
 #define P_ERROR_MSG_ID_NOTFOUND "ERROR: ID not found!\n"
 
-    // NOMES DE FICHEIROS
+    // FILE NAMES
 #define P_FILE_NAME "Products"
 #define P_FILE_NAME_COUNT "ProductCount" 
     
@@ -41,6 +41,7 @@ extern "C" {
         float pricePerUnit;
     } Product;
 
+// METHODS
 void createProductsFile(Product products[]);
 void saveProductsFile(Product products[]);
 Product readProductsFile(Product products[]);

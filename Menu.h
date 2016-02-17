@@ -17,6 +17,9 @@
 #define MENUOPTMIN 1
 #define MENUOPTMAX 8
 
+#define MENU_MSG_OPT "Select Option: "
+
+
 void mainMenu();
 
 

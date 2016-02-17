@@ -19,29 +19,29 @@ void createOrdersFile(Order orders[]) {
     }
 }
 
-void saveOrdersFile(Order o[]) {
+void saveOrdersFile(Order orders[]) {
     FILE *pOrders = fopen(O_FILE_NAME, "w");
     if (pOrders == (FILE *) NULL) {
         printf("%s file doesn't exist.\n", O_FILE_NAME);
         printf("Couldn't save %s file.\n", O_FILE_NAME);
     } else {
-        fwrite(o, sizeof (Order), ORDERS_SIZE, pOrders);
+        fwrite(orders, sizeof (Order), ORDERS_SIZE, pOrders);
         printf("%s file saved.\n", O_FILE_NAME);
         fclose(pOrders);
     }
 }
 
-Order readOrdersFile(Order o[]) {
+Order readOrdersFile(Order orders[]) {
 
     FILE *pOrders = fopen(O_FILE_NAME, "r");
     if (pOrders == (FILE *) NULL) {
         printf("%s file doesn't exist\n", O_FILE_NAME);
         printf("Creating %s file now...\n", O_FILE_NAME);
-        createOrdersFile(o);
+        createOrdersFile(orders);
         printf("%s file created\n", O_FILE_NAME);
         //readOrderFile(p); 
     } else {
-        fread(o, sizeof (Product), ORDERS_SIZE, pOrders);
+        fread(orders, sizeof (Product), ORDERS_SIZE, pOrders);
         fclose(pOrders);
     }
 }
@@ -83,39 +83,39 @@ int readOrderCountFile(int *oCount) {
     }
 }
 
-void setOrderId(Order *o, int pos) {
+void setOrderId(Order *orders, int pos) {
     if (pos == 0) {
-        o[pos].id = 1;
+        orders[pos].id = 1;
     } else {
-        o[pos].id = o[pos - 1].id + 1;
+        orders[pos].id = orders[pos - 1].id + 1;
     }
 }
 
-void setOrderDate(Order *o, int pos){
-    setCurrentDate(&o[pos].orderDate);
+void setOrderDate(Order *orders, int pos){
+    setCurrentDate(&orders[pos].orderDate);
 }
 
 void setOrderBI(long *bi, char msg[]) {
     readLong(bi, C_BI_MIN, C_BI_MAX, msg);
 }
 
-void setOrderClientBi(Order *o, int pos, Client *c, int *cCount) {
+void setOrderClientBi(Order *orders, int pos, Client *clients, int *cCount) {
     long pBi, verify = EOF;
 
     do {
         setOrderBI(&pBi, O_MSG_CLIENT_BI);
-        verify = verifyIfClientBIExist(c, pBi, cCount);
+        verify = verifyIfClientBIExist(clients, pBi, cCount);
         if (verify == EOF) {
             printf(O_ERROR_MSG_BI_NOTFOUND);
         } else {
-            o[pos].clientBI = pBi;
-            setOrderDate(o, pos);
+            orders[pos].clientBI = pBi;
+            setOrderDate(orders, pos);
         }
     } while (verify = EOF);
 }
 
-void setOrderApprovalDate(Order *o, int pos) {
-    setCurrentDate(&o[pos].approvalDate);
+void setOrderApprovalDate(Order *orders, int pos) {
+    setCurrentDate(&orders[pos].approvalDate);
 }
 
 void setCurrentDate(Date *date) {
@@ -134,28 +134,28 @@ void setDate(Date *date, char msgDate[]) {
     readInt(&date->day, O_DATE_DAY_MIN, O_DATE_DAY_MAX, O_MSG_DATE_DAY);
 }
 
-void setOrderProductId(Order *o, int pos, Product *p, int *pCount){
+void setOrderProductId(Order *orders, int pos, Product *products, int *pCount){
     long pId, verify = EOF;
     
     do {
         readLong(&pId,P_ID_MAX,P_ID_MIN,P_MSG_ID);
-        verify = verifyIfProductIDExist(p, pId, pCount);
+        verify = verifyIfProductIDExist(products, pId, pCount);
         if (verify == EOF) {
             printf(O_ERROR_MSG_ID_NOTFOUND);
         } else {
-            p[pos].id = pId;
-            setOrderProductPriceU(o, pos, p[verify].pricePerUnit);
-            o[pos].contlines++;
+            orders[pos].lines[orders[pos].contLines].idProduct = pId;
+            setOrderProductPriceU(orders, pos, products[verify].pricePerUnit);
+            orders[pos].contLines++;
         }
     } while (verify = EOF);
 }
 
-void setOrderProductQuantity(Order *o, int pos){
-    readInt(&o[pos].lines[o[pos].contlines].quantity, O_QUANTITY_MIN, O_QUANTITY_MAX, O_MSG_QUANTITY);
+void setOrderProductQuantity(Order *orders, int pos){
+    readInt(&orders[pos].lines[orders[pos].contLines].quantity, O_QUANTITY_MIN, O_QUANTITY_MAX, O_MSG_QUANTITY);
 }
 
-void setOrderProductPriceU(Order *o, int pos, float pricePerUnit){
-    o[pos].lines[o[pos].contlines].pricePerUnit;
+void setOrderProductPriceU(Order *orders, int pos, float pricePerUnit){
+    orders[pos].lines[orders[pos].contLines].pricePerUnit = pricePerUnit;
 }
 
 void setOrderLines() {
@@ -164,20 +164,20 @@ void setOrderLines() {
 void serOrderServiceCost() {
 }
 
-void setOrderStreet(Order *o, int pos) {
-    readString(o[pos].address.street, O_STREET_LENGTH, O_MSG_STREET);
+void setOrderStreet(Order *orders, int pos) {
+    readString(orders[pos].address.street, O_STREET_LENGTH, O_MSG_STREET);
 }
 
-void setOrderNumber(Order *o, int pos) {
-    readInt(&o[pos].address.number, O_NUMBER_MIN, O_NUMBER_MAX, O_MSG_NUMBER);
+void setOrderNumber(Order *orders, int pos) {
+    readInt(&orders[pos].address.number, O_NUMBER_MIN, O_NUMBER_MAX, O_MSG_NUMBER);
 }
 
-void setOrderPostalCode(Order *o, int pos) {
-    readString(o[pos].address.postalCode, O_POSTALCODE_LENGTH, O_MSG_POSTALCODE);
+void setOrderPostalCode(Order *orders, int pos) {
+    readString(orders[pos].address.postalCode, O_POSTALCODE_LENGTH, O_MSG_POSTALCODE);
 }
 
-void setOrderCity(Order *o, int pos) {
-    readString(o[pos].address.city, O_CITY_LENGTH, O_MSG_CITY);
+void setOrderCity(Order *orders, int pos) {
+    readString(orders[pos].address.city, O_CITY_LENGTH, O_MSG_CITY);
 }
 
 void serOrderAddress() {
@@ -186,41 +186,41 @@ void serOrderAddress() {
 void serOrderTotalPrice() {
 }
 
-void setOrderApprovalWorkerBI(Order *o, Worker *w, int pos, int *wCount) {
+void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount) {
     long pBi , val = EOF;
 
     do {
         setOrderBI(&pBi, O_MSG_WORKER_APPROVAL_BI);
-        val = verifyIfWorkerBIExist(w, pBi, wCount);
-        if (val != EOF && w[val].type == 1) {
-            o[pos].approvalWorkerBI = pBi;
-            setOrderApprovalDate(o, pos);
+        val = verifyIfWorkerBIExist(workers, pBi, wCount);
+        if (val != EOF && workers[val].type == 1) {
+            orders[pos].approvalWorkerBI = pBi;
+            setOrderApprovalDate(orders, pos);
         } else {
             printf(O_ERROR_MSG_BI_INVALID);
         }
     } while (val = EOF);
 }
 
-void setOrderExpectedDeliveryDate(Order *o, int pos) {
-    setDate(&o[pos].expectedDeliveryDate, O_MSG_EXPECTED_DELIVERY_DATE);
+void setOrderExpectedDeliveryDate(Order *orders, int pos) {
+    setDate(&orders[pos].expectedDeliveryDate, O_MSG_EXPECTED_DELIVERY_DATE);
 }
 
-void setOrderDeliveryman(Order *o, Worker *w, int pos, int wCount) {
+void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int wCount) {
     long delivermanBi, val = EOF;
 
     do {
         setOrderBI(&delivermanBi, O_MSG_WORKER_DELIVER_BI);
-        val = verifyIfWorkerBIExist(w, delivermanBi, &wCount);
-        if (val != EOF && w[val].type == 2) {
-            o[pos].deliveryman = w[val];
+        val = verifyIfWorkerBIExist(workers, delivermanBi, &wCount);
+        if (val != EOF && workers[val].type == 2) {
+            orders[pos].deliveryman = workers[val];
         } else {
             printf(O_ERROR_MSG_BI_INVALID);
         }
     } while (val = EOF);
 }
 
-void setOrderActualDeliveryDate(Order *o, int pos) {
-    setDate(&o[pos].actualDeliveryDate, O_MSG_ACTUAL_DELIVERY_DATE);
+void setOrderActualDeliveryDate(Order *orders, int pos) {
+    setDate(&orders[pos].actualDeliveryDate, O_MSG_ACTUAL_DELIVERY_DATE);
 }
 
 void addOrder(){}

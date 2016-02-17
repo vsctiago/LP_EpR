@@ -1,9 +1,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "Client.h"
 #include "LP_Leitura.h"
+
 
 void createClientsFile(Client clients[]) {
     FILE *pClients = fopen("Clients", "w");

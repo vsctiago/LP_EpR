@@ -1,9 +1,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "Product.h"
 #include "LP_Leitura.h"
+
 
 void createProductsFile(Product products[]) {
     FILE *pProducts = fopen(P_FILE_NAME, "w");
@@ -72,7 +72,7 @@ int readProductCountFile(int *pCount) {
         printf("Creating %s file now...\n", P_FILE_NAME_COUNT);
         createProductCountFile(pCount);
         printf("%s file created\n", P_FILE_NAME_COUNT);
-        //readProductCountFile(prCount);
+        //readProductCountFile(pPCount);
     } else {
         fread(pCount, sizeof (int), 1, pPcount);
         fclose(pPcount);

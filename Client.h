@@ -8,6 +8,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+
 // LIMITS TO VARIABLES
 #define CLIENTS_SIZE 100
 #define C_BI_MIN 10000000
@@ -37,7 +38,7 @@
 #define C_ERROR_MSG_BI_NOTFOUND "ERROR: BI not found! "
 #define C_ERROR_MSG_PASS_WRONG "ERROR: Wrong Password. "
 
-// NOMES DE FICHEIROS
+// FILE NAMES
 #define C_FILE_NAME "Clients"
 #define C_FILE_NAME_COUNT "ClientCount" 
 
@@ -57,6 +58,7 @@ typedef struct {
     long phoneNumber2;
 } Client;
 
+// METHODS
 void createClientsFile(Client clients[]);
 void saveClientsFile(Client clients[]);
 Client readClientsFile(Client clients[]);

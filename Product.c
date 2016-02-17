@@ -5,39 +5,39 @@
 #include "Product.h"
 #include "LP_Leitura.h"
 
-void createProductsFile(Product p[]) {
+void createProductsFile(Product products[]) {
     FILE *pProducts = fopen(P_FILE_NAME, "w");
     if (pProducts == (FILE*) NULL) {
         printf("Couldn't create %s File. ", P_FILE_NAME);
     } else {
-        fwrite(p, sizeof (Product), PRODUCTS_SIZE, pProducts);
+        fwrite(products, sizeof (Product), PRODUCTS_SIZE, pProducts);
         fclose(pProducts);
     }
 }
 
-void saveProductsFile(Product p[]) {
+void saveProductsFile(Product products[]) {
     FILE *pProducts = fopen(P_FILE_NAME, "w");
     if (pProducts == (FILE *) NULL) {
         puts("%s file doesn't exist.", P_FILE_NAME);
         puts("Couldn't save %s file.", P_FILE_NAME);
     } else {
-        fwrite(p, sizeof (Product), PRODUCTS_SIZE, pProducts);
+        fwrite(products, sizeof (Product), PRODUCTS_SIZE, pProducts);
         puts("%s file saved.", P_FILE_NAME);
         fclose(pProducts);
     }
 }
 
-Client readProductsFile(Product p[]) {
+Client readProductsFile(Product products[]) {
 
     FILE *pProducts = fopen(P_FILE_NAME, "r");
     if (pProducts == (FILE *) NULL) {
         puts("%s file doesn't exist", P_FILE_NAME);
         puts("Creating %s file now...", P_FILE_NAME);
-        createProductsFile(p);
+        createProductsFile(products);
         puts("%s file created", P_FILE_NAME);
-        //readProductFile(p); 
+        //readProductFile(products); 
     } else {
-        fread(p, sizeof (Product), PRODUCTS_SIZE, pProducts);
+        fread(products, sizeof (Product), PRODUCTS_SIZE, pProducts);
         fclose(pProducts);
     }
 }
@@ -52,47 +52,47 @@ void createProductCountFile(int *prCount) {
     }
 }
 
-void saveProductCountFile(int *prCount) {
-    FILE *pPRcount = fopen(P_FILE_NAME_COUNT, "w");
-    if (pPRcount == (FILE *) NULL) {
+void saveProductCountFile(int *pCount) {
+    FILE *pPcount = fopen(P_FILE_NAME_COUNT, "w");
+    if (pPcount == (FILE *) NULL) {
         puts("%s file doesn't exist.", P_FILE_NAME_COUNT);
         puts("Couldn't save %s file.", P_FILE_NAME_COUNT);
     } else {
-        fwrite(prCount, sizeof (int), 1, pPRcount);
+        fwrite(pCount, sizeof (int), 1, pPcount);
         puts("%s file saved.", P_FILE_NAME_COUNT);
-        fclose(pPRcount);
+        fclose(pPcount);
     }
 }
 
-int readProductCountFile(int *prCount) {
+int readProductCountFile(int *pCount) {
 
-    FILE *pPRcount = fopen(P_FILE_NAME_COUNT, "r");
-    if (pPRcount == (FILE *) NULL) {
+    FILE *pPcount = fopen(P_FILE_NAME_COUNT, "r");
+    if (pPcount == (FILE *) NULL) {
         puts("%s file doesn't exist");
         puts("Creating %s file now...", P_FILE_NAME_COUNT);
-        createClientCountFile(prCount);
+        createClientCountFile(pCount);
         puts("%s file created", P_FILE_NAME_COUNT);
         //readClientCountFile(prCount);
     } else {
-        fread(prCount, sizeof (int), 1, pPRcount);
-        fclose(pPRcount);
+        fread(pCount, sizeof (int), 1, pPcount);
+        fclose(pPcount);
     }
 }
 
-void setProductId(Product *p, int pos) {
+void setProductId(Product *products, int pos) {
     if (pos == 0) {
-        p[pos].id = P_ID_MIN;
+        products[pos].id = P_ID_MIN;
     } else {
-        p[pos].id = p[pos - 1].id + 1;
+        products[pos].id = products[pos - 1].id + 1;
     }
 }
 
-void setProductName(Product *p, int pos) {
-    readString(p[pos].name, P_NAME_LENGTH, P_MSG_NAME);
+void setProductName(Product *products, int pos) {
+    readString(products[pos].name, P_NAME_LENGTH, P_MSG_NAME);
 }
 
-void setProductDescription(Product *p, int pos) {
-    readString(p[pos].description, P_DESCRIPTION_LENGTH, P_MSG_DESCRIPTION);
+void setProductDescription(Product *products, int pos) {
+    readString(products[pos].description, P_DESCRIPTION_LENGTH, P_MSG_DESCRIPTION);
 }
 
 bool verifyIfProductsFull(int *pCount) {
@@ -104,68 +104,68 @@ bool verifyIfProductsFull(int *pCount) {
     }
 }
 
-int verifyIfProductIDExist(Product *p, int id, int *pCount) {
+int verifyIfProductIDExist(Product *products, int id, int *pCount) {
     int pos;
     for (pos = 0; pos<*pCount; pos++) {
-        if (p[pos].id == id) {
+        if (products[pos].id == id) {
             return pos;
         }
     }
     return EOF;
 }
 
-void addProduct(Product *p, int *pCount) {
+void addProduct(Product *products, int *pCount) {
     if (verifyIfProductsFull(pCount) == false) {
-        setProductId(p, *pCount);
-        setProductName(p, *pCount);
-        setProductDescription(p, *pCount);
+        setProductId(products, *pCount);
+        setProductName(products, *pCount);
+        setProductDescription(products, *pCount);
         (*pCount)++;
-        saveProductsFile(p);
+        saveProductsFile(products);
         saveProductCountFile(pCount);
     }
 }
 
-void editProduct(Product *p, int *pCount) {
+void editProduct(Product *products, int *pCount) {
     int pID, pos;
 
-    listProducts(p, *pCount);
+    listProducts(products, *pCount);
     readInt(&pID, P_ID_MIN, P_ID_MAX, "Which Product to Edit(ID): ");
-    pos = verifyIfProductIDExist(p, pID, pCount);
+    pos = verifyIfProductIDExist(products, pID, pCount);
     if (pos != EOF) {
-        setProductName(p, *pCount);
-        setProductDescription(p, *pCount);
-        saveProductsFile(p);
+        setProductName(products, *pCount);
+        setProductDescription(products, *pCount);
+        saveProductsFile(products);
         saveProductCountFile(pCount);
     } else {
         puts(P_ERROR_MSG_ID_NOTFOUND);
     }
 }
 
-void removeProduct(Product *p, int *pCount) {
+void removeProduct(Product *products, int *pCount) {
     int pID, pos;
 
-    listProducts(p, *pCount);
+    listProducts(products, *pCount);
     readInt(&pID, P_ID_MIN, P_ID_MAX, "Which Product to Remove(ID): ");
-    pos = verifyIfProductIDExist(p, pID, pCount);
+    pos = verifyIfProductIDExist(products, pID, pCount);
     if (pos != EOF) {
         for (pos; pos<*pCount - 1; pos++) {
-            p[pos] = p[pos + 1];
+            products[pos] = products[pos + 1];
         }
         (*pCount)--;
-        saveProductsFile(p);
+        saveProductsFile(products);
         saveProductCountFile(pCount);
     } else {
         puts(P_ERROR_MSG_ID_NOTFOUND);
     }
 }
 
-void listProducts(Product *p, int *pCount) {
+void listProducts(Product *products, int *pCount) {
     int pos;
 
     for (pos = 0; pos<*pCount; pos++) {
         printf("\n->Position [%d]\n");
-        printf("\tProduct ID:\t%d\n", p[pos].id);
-        printf("\tProduct NAME:\t%s\n", p[pos].name);
-        printf("\tProduct DESCRIPTION:\t%s\n", p[pos].description);
+        printf("\tProduct ID:\t%d\n", products[pos].id);
+        printf("\tProduct NAME:\t%s\n", products[pos].name);
+        printf("\tProduct DESCRIPTION:\t%s\n", products[pos].description);
     }
 }

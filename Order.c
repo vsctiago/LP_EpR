@@ -232,3 +232,24 @@ void removeOrder(){
 }
 
 void listOrder(){}
+
+bool checkDate(Date *newDate, Date *oldDate) {
+    bool val = false;
+    if(newDate->year > oldDate->year) {
+        val = true;
+        return val;
+    } else if(newDate->year == oldDate->year) {
+        if(newDate->month > oldDate->month) {
+            val = true;
+            return val;
+        } else if(newDate->month == oldDate->month) {
+            if(newDate->day >= oldDate->day) {
+                val = true;
+                return val;
+            }
+        }
+    }
+    return val;
+}
+
+

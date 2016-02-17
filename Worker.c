@@ -155,7 +155,7 @@ void listWorkers(Worker *workers, int *wCount) {
     int pos;
 
     for (pos = 0; pos<*wCount; pos++) {
-        printf("[%d] BI: %ld | %s\n", pos, workers[pos].bi, workers[pos].name);
+        printf("[%d] BI: %ld | %s \t| \n", pos, workers[pos].bi, workers[pos].name, workers[pos].type);
     }
 }
 

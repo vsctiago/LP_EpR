@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "Menu.h"
 
 void mainMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount) {
@@ -20,7 +22,7 @@ void mainMenu(Client *clients, Worker *workers, Order *orders, int *clientCount,
                 break;
             case 3: //Manag Worker
                 cleanScreen();
-                manageMenu(clients, workers, orders, &clientCount, &workerCount, &orderCount);
+                manageMenu(clients, workers, orders, clientCount, workerCount, orderCount);
                 break;
             default:
                 printf(MENU_MSG_OPT_INVALID);
@@ -177,14 +179,14 @@ void clientMenuPrint() {
     puts("1. Add Order.");
     puts("2. List Orders.");
     puts("3. Edit Profile.");
-    puts("4. Back.");
+    puts("0. Back.");
 }
 
 void manageMenuPrint() {
     puts("## Manager Menu ##");
     puts("1. Register.");
     puts("2. Login.");
-    puts("3. Back.");
+    puts("0. Back.");
 }
 
 void listClientOrdersMenuPrint(){

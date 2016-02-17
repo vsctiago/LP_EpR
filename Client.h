@@ -8,6 +8,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <stdbool.h>
 
 // LIMITS TO VARIABLES
 #define CLIENTS_SIZE 100

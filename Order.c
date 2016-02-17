@@ -163,12 +163,12 @@ void setOrderLines(Order *orders, int pos, Product *products, int *pCount) {
     bool val = true;
     do {
         setOrderProductId(orders, pos, products, pCount);
-        readBool(val, O_MSG_ADDMORE_LINES);
+        readBool(&val, O_MSG_ADDMORE_LINES);
     } while(val == true);
 }
 
 void serOrderServiceCost(Order *orders, int pos) {
-    readFloat(orders[pos].serviceCost, O_SERVICECOST_MIN, O_SERVICECOST_MAX, O_MSG_SERICECOST);
+    readFloat(&orders[pos].serviceCost, O_SERVICECOST_MIN, O_SERVICECOST_MAX, O_MSG_SERICECOST);
 }
 
 void setOrderStreet(Order *orders, int pos) {
@@ -181,8 +181,8 @@ void setOrderNumber(Order *orders, int pos) {
 
 void setOrderPostalCode(Order *orders, int pos) {
     printf(O_MSG_POSTALCODE);
-    readInt(orders[pos].address.postalCode.prefix, O_POSTALCODE_PREFIX_MIN, O_POSTALCODE_PREFIX_MAX, O_MSG_POSTALCODE_PREFIX);
-    readInt(orders[pos].address.postalCode.sufix, O_POSTALCODE_SUFIX_MIN, O_POSTALCODE_SUFIX_MAX, O_MSG_POSTALCODE_SUFIX);
+    readInt(&orders[pos].address.postalCode.prefix, O_POSTALCODE_PREFIX_MIN, O_POSTALCODE_PREFIX_MAX, O_MSG_POSTALCODE_PREFIX);
+    readInt(&orders[pos].address.postalCode.sufix, O_POSTALCODE_SUFIX_MIN, O_POSTALCODE_SUFIX_MAX, O_MSG_POSTALCODE_SUFIX);
 }
 
 void setOrderCity(Order *orders, int pos) {

@@ -27,7 +27,8 @@ int main(int argc, char** argv) {
     Client clients[CLIENTS_SIZE];
     Worker workers[WORKERS_SIZE];
     Order orders[ORDERS_SIZE];
-    int clientCount = 0, workerCount = 0, orderCount = 0;
+    Product products[PRODUCTS_SIZE];
+    int clientCount = 0, workerCount = 0, orderCount = 0, productCount = 0;
 
     readClientsFile(clients);
     readClientCountFile(&clientCount);

@@ -16,6 +16,7 @@
 
 #include "LP_Utils.h"
 #include "Worker.h"
+#include "Product.h"
 
 
 // LIMITS TO VARIABLES
@@ -125,11 +126,11 @@ int readProductCountFile(int *oCount);
 void setOrderId(Order *o, int pos);
 void setOrderDate(Order *o, int pos);
 void setOrderBI(long *bi, char msg[]);
-void setOrderClientBi(Order *o, int pos, Client *c, int cCount);
+void setOrderClientBi(Order *o, int pos, Client *c, int *cCount);
 void setOrderApprovalDate(Order *o, int pos);
 void setCurrentDate(Date *date);
 void setDate(Date *date, char msgDate[]);
-void setOrderProductId(Order *o, int pos, Product *p, int pCount);
+void setOrderProductId(Order *o, int pos, Product *p, int *pCount);
 void setOrderProductQuantity(Order *o, int pos);
 void setOrderProductPriceU(Order *o, int pos, float pricePerUnit);
 void setOrderLines();
@@ -140,7 +141,7 @@ void setOrderPostalCode(Order *o, int pos);
 void setOrderCity(Order *o, int pos);
 void serOrderAddress();
 void serOrderTotalPrice();
-void setOrderApprovalWorkerBI(Order *o, Worker *w, int pos, int wCount);
+void setOrderApprovalWorkerBI(Order *o, Worker *w, int pos, int *wCount);
 void setOrderExpectedDeliveryDate(Order *o, int pos);
 void setOrderDeliveryman(Order *o, Worker *w, int pos, int wCount);
 void setOrderActualDeliveryDate(Order *o, int pos);

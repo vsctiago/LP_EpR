@@ -16,11 +16,11 @@ void createWorkersFile(Worker worker[]) {
 void saveWorkersFile(Worker worker[]) {
     FILE *pWorkers = fopen(W_FILE_NAME, "w");
     if (pWorkers == (FILE *) NULL) {
-        puts("%s file doesn't exist.", W_FILE_NAME);
-        puts("Couldn't save %s file.", W_FILE_NAME);
+        printf("%s file doesn't exist.\n", W_FILE_NAME);
+        printf("Couldn't save %s file.\n", W_FILE_NAME);
     } else {
         fwrite(worker, sizeof (Worker), WORKERS_SIZE, pWorkers);
-        puts("%s file saved.", W_FILE_NAME);
+        printf("%s file saved.\n", W_FILE_NAME);
         fclose(pWorkers);
     }
 }
@@ -29,10 +29,10 @@ Worker readWorkersFile(Worker worker[]) {
 
     FILE *pWorkers = fopen(W_FILE_NAME, "r");
     if (pWorkers == (FILE *) NULL) {
-        puts("%s file doesn't exist", W_FILE_NAME);
-        puts("Creating %s file now...", W_FILE_NAME);
+        printf("%s file doesn't exist\n", W_FILE_NAME);
+        printf("Creating %s file now...\n", W_FILE_NAME);
         createWorkersFile(worker);
-        puts("%s file created");
+        printf("%s file created\n");
         //readWorkersFile(w);
     } else {
         fread(worker, sizeof (Worker), WORKERS_SIZE, pWorkers);
@@ -53,11 +53,11 @@ void createWorkerCountFile(int *wCount) {
 void saveWorkerCountFile(int *wCount) {
     FILE *pWcount = fopen(W_FILE_NAME_COUNT, "w");
     if (pWcount == (FILE *) NULL) {
-        puts("%s file doesn't exist.", W_FILE_NAME_COUNT);
-        puts("Couldn't save %s file.", W_FILE_NAME_COUNT);
+        printf("%s file doesn't exist.\n", W_FILE_NAME_COUNT);
+        printf("Couldn't save %s file.\n", W_FILE_NAME_COUNT);
     } else {
         fwrite(wCount, sizeof (int), 1, pWcount);
-        puts("%s file saved.", W_FILE_NAME_COUNT);
+        printf("%s file saved.\n", W_FILE_NAME_COUNT);
         fclose(pWcount);
     }
 }
@@ -66,10 +66,10 @@ int readWorkerCountFile(int *wCount) {
 
     FILE *pWcount = fopen(W_FILE_NAME_COUNT, "r");
     if (pWcount == (FILE *) NULL) {
-        puts("%s file doesn't exist", W_FILE_NAME_COUNT);
-        puts("Creating %s file now...", W_FILE_NAME_COUNT);
+        printf("%s file doesn't exist\n", W_FILE_NAME_COUNT);
+        printf("Creating %s file now...\n", W_FILE_NAME_COUNT);
         createWorkerCountFile(wCount);
-        puts("%s file created", W_FILE_NAME_COUNT);
+        printf("%s file created\n", W_FILE_NAME_COUNT);
         //readWorkerCountFile(wCount);
     } else {
         fread(wCount, sizeof (int), 1, pWcount);

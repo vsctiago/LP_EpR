@@ -43,7 +43,7 @@ extern "C" {
 
 void createProductsFile(Product products[]);
 void saveProductsFile(Product products[]);
-Client readProductsFile(Product products[]);
+Product readProductsFile(Product products[]);
 void createProductCountFile(int *prCount);
 void saveProductCountFile(int *pCount);
 int readProductCountFile(int *pCount);

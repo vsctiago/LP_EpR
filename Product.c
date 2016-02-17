@@ -18,23 +18,23 @@ void createProductsFile(Product products[]) {
 void saveProductsFile(Product products[]) {
     FILE *pProducts = fopen(P_FILE_NAME, "w");
     if (pProducts == (FILE *) NULL) {
-        puts("%s file doesn't exist.", P_FILE_NAME);
-        puts("Couldn't save %s file.", P_FILE_NAME);
+        printf("%s file doesn't exist.\n", P_FILE_NAME);
+        printf("Couldn't save %s file.\n", P_FILE_NAME);
     } else {
         fwrite(products, sizeof (Product), PRODUCTS_SIZE, pProducts);
-        puts("%s file saved.", P_FILE_NAME);
+        printf("%s file saved.\n", P_FILE_NAME);
         fclose(pProducts);
     }
 }
 
-Client readProductsFile(Product products[]) {
+Product readProductsFile(Product products[]) {
 
     FILE *pProducts = fopen(P_FILE_NAME, "r");
     if (pProducts == (FILE *) NULL) {
-        puts("%s file doesn't exist", P_FILE_NAME);
-        puts("Creating %s file now...", P_FILE_NAME);
+        printf("%s file doesn't exist\n", P_FILE_NAME);
+        printf("Creating %s file now...\n", P_FILE_NAME);
         createProductsFile(products);
-        puts("%s file created", P_FILE_NAME);
+        printf("%s file created\n", P_FILE_NAME);
         //readProductFile(products); 
     } else {
         fread(products, sizeof (Product), PRODUCTS_SIZE, pProducts);
@@ -55,11 +55,11 @@ void createProductCountFile(int *prCount) {
 void saveProductCountFile(int *pCount) {
     FILE *pPcount = fopen(P_FILE_NAME_COUNT, "w");
     if (pPcount == (FILE *) NULL) {
-        puts("%s file doesn't exist.", P_FILE_NAME_COUNT);
-        puts("Couldn't save %s file.", P_FILE_NAME_COUNT);
+        printf("%s file doesn't exist.\n", P_FILE_NAME_COUNT);
+        printf("Couldn't save %s file.\n", P_FILE_NAME_COUNT);
     } else {
         fwrite(pCount, sizeof (int), 1, pPcount);
-        puts("%s file saved.", P_FILE_NAME_COUNT);
+        printf("%s file saved.\n", P_FILE_NAME_COUNT);
         fclose(pPcount);
     }
 }
@@ -68,10 +68,10 @@ int readProductCountFile(int *pCount) {
 
     FILE *pPcount = fopen(P_FILE_NAME_COUNT, "r");
     if (pPcount == (FILE *) NULL) {
-        puts("%s file doesn't exist");
-        puts("Creating %s file now...", P_FILE_NAME_COUNT);
+        printf("%s file doesn't exist\n");
+        printf("Creating %s file now...\n", P_FILE_NAME_COUNT);
         createClientCountFile(pCount);
-        puts("%s file created", P_FILE_NAME_COUNT);
+        printf("%s file created\n", P_FILE_NAME_COUNT);
         //readClientCountFile(prCount);
     } else {
         fread(pCount, sizeof (int), 1, pPcount);
@@ -128,7 +128,7 @@ void addProduct(Product *products, int *pCount) {
 void editProduct(Product *products, int *pCount) {
     int pID, pos;
 
-    listProducts(products, *pCount);
+    listProducts(products, pCount);
     readInt(&pID, P_ID_MIN, P_ID_MAX, "Which Product to Edit(ID): ");
     pos = verifyIfProductIDExist(products, pID, pCount);
     if (pos != EOF) {
@@ -144,7 +144,7 @@ void editProduct(Product *products, int *pCount) {
 void removeProduct(Product *products, int *pCount) {
     int pID, pos;
 
-    listProducts(products, *pCount);
+    listProducts(products, pCount);
     readInt(&pID, P_ID_MIN, P_ID_MAX, "Which Product to Remove(ID): ");
     pos = verifyIfProductIDExist(products, pID, pCount);
     if (pos != EOF) {

@@ -9,7 +9,7 @@
 #include "Product.h"
 
 
-void createOrdersFile(Order o[]) {
+void createOrdersFile(Order orders[]) {
     FILE *pOrders = fopen(O_FILE_NAME, "w");
     if (pOrders == (FILE*) NULL) {
         printf("Couldn't create %s File. ", O_FILE_NAME);
@@ -133,8 +133,6 @@ void setDate(Date *date, char msgDate[]) {
     readInt(date->month, O_DATE_MONTH_MIN, O_DATE_MONTH_MAX, O_MSG_DATE_MONTH);
     readInt(date->day, O_DATE_DAY_MIN, O_DATE_DAY_MAX, O_MSG_DATE_DAY);
 }
-
-
 
 void setOrderProductId(Order *o, int pos, Product *p, int pCount){
     long *pId, verify = EOF;

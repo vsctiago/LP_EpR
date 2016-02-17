@@ -180,10 +180,12 @@ void setOrderCity(Order *orders, int pos) {
     readString(orders[pos].address.city, O_CITY_LENGTH, O_MSG_CITY);
 }
 
-void serOrderAddress() {
+void setOrderAddress() {
 }
 
 void setOrderTotalPrice() {
+    float total = 0;
+    
 }
 
 void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount) {

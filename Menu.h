@@ -14,14 +14,29 @@
 #ifndef MENU_H
 #define MENU_H
 
-#define MENUOPTMIN 1
-#define MENUOPTMAX 8
+#include "Client.h"
+#include "Worker.h"
+#include "Product.h"
+#include "Order.h"
+
+#define MENU_OPT_MIN 0
+#define MENU_OPT_MAX 8
 
 #define MENU_MSG_OPT "Select Option: "
+#define MENU_MSG_OPT_INVALID "Invalid Option: "
 
-
-void mainMenu();
-
+void mainMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount);
+void clientMenu(Client *clients, Order *orders, int *clientCount, int *orderCounts);
+void listClientOrdersMenu();
+void manageMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount);
+void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount);
+void workerDeliveryMenu();
+void mainMenuPrint();
+void clientMenuPrint();
+void manageMenuPrint();
+void listClientOrdersMenuPrint();
+void workerHandlingMenuPrint();
+void workerDeliveryMenuPrint();
 
 
 #ifdef __cplusplus

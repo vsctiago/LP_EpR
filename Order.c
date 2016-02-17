@@ -135,19 +135,20 @@ void setDate(Date *date, char msgDate[]) {
 }
 
 void setOrderProductId(Order *orders, int pos, Product *products, int *pCount){
-    long pId, verify = EOF;
+    long pId, val = EOF;
     
     do {
         readLong(&pId,P_ID_MAX,P_ID_MIN,P_MSG_ID);
-        verify = verifyIfProductIDExist(products, pId, pCount);
-        if (verify == EOF) {
+        val = verifyIfProductIDExist(products, pId, pCount);
+        if (val == EOF) {
             printf(O_ERROR_MSG_ID_NOTFOUND);
         } else {
             orders[pos].lines[orders[pos].contLines].idProduct = pId;
-            setOrderProductPriceU(orders, pos, products[verify].pricePerUnit);
+            setOrderProductQuantity(orders, pos);
+            setOrderProductPriceU(orders, pos, products[val].pricePerUnit);
             orders[pos].contLines++;
         }
-    } while (verify = EOF);
+    } while (val == EOF);
 }
 
 void setOrderProductQuantity(Order *orders, int pos){
@@ -158,10 +159,16 @@ void setOrderProductPriceU(Order *orders, int pos, float pricePerUnit){
     orders[pos].lines[orders[pos].contLines].pricePerUnit = pricePerUnit;
 }
 
-void setOrderLines() {
+void setOrderLines(Order *orders, int pos, Product *products, int *pCount) {
+    bool val = true;
+    do {
+        setOrderProductId(orders, pos, products, pCount);
+        readBool(val, O_MSG_ADDMORE_LINES);
+    } while(val == true);
 }
 
-void serOrderServiceCost() {
+void serOrderServiceCost(Order *orders, int pos) {
+    readFloat(orders[pos].serviceCost, O_SERVICECOST_MIN, O_SERVICECOST_MAX, O_MSG_SERICECOST);
 }
 
 void setOrderStreet(Order *orders, int pos) {
@@ -173,19 +180,31 @@ void setOrderNumber(Order *orders, int pos) {
 }
 
 void setOrderPostalCode(Order *orders, int pos) {
-    readString(orders[pos].address.postalCode, O_POSTALCODE_LENGTH, O_MSG_POSTALCODE);
+    printf(O_MSG_POSTALCODE);
+    readInt(orders[pos].address.postalCode.prefix, O_POSTALCODE_PREFIX_MIN, O_POSTALCODE_PREFIX_MAX, O_MSG_POSTALCODE_PREFIX);
+    readInt(orders[pos].address.postalCode.sufix, O_POSTALCODE_SUFIX_MIN, O_POSTALCODE_SUFIX_MAX, O_MSG_POSTALCODE_SUFIX);
 }
 
 void setOrderCity(Order *orders, int pos) {
     readString(orders[pos].address.city, O_CITY_LENGTH, O_MSG_CITY);
 }
 
-void setOrderAddress() {
+void setOrderAddress(Order *orders, int pos) {
+    setOrderStreet(orders, pos);
+    setOrderNumber(orders, pos);
+    setOrderPostalCode(orders, pos);
+    setOrderCity(orders, pos);
 }
 
-void setOrderTotalPrice() {
-    float total = 0;
-    
+void setOrderTotalPrice(Order *orders, int pos) {
+    float total = 0, linePrice = 0;
+    int i = 0;
+    for(i=0; i < orders->contLines; i++) {
+        linePrice += (orders[pos].lines[i].pricePerUnit * orders[pos].lines[i].quantity);
+        total += linePrice;
+        linePrice = 0;
+    }
+    orders[pos].totalPrice = total;
 }
 
 void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount) {

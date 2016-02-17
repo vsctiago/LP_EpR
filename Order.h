@@ -31,10 +31,15 @@
 #define O_DATE_MONTH_MAX 12
 #define O_DATE_YEAR_MIN 1837
 #define O_DATE_YEAR_MAX 2038
+#define O_SERVICECOST_MIN 0
+#define O_SERVICECOST_MAX 100
 #define O_NUMBER_MIN 1
 #define O_NUMBER_MAX 9999
 #define O_STREET_LENGTH 100+1
-#define O_POSTALCODE_LENGTH 8+1
+#define O_POSTALCODE_PREFIX_MIN 1000
+#define O_POSTALCODE_PREFIX_MAX 9999
+#define O_POSTALCODE_SUFIX_MIN 0
+#define O_POSTALCODE_SUFIX_MAX 999
 #define O_CITY_LENGTH 50+1
 #define O_ORDERLINE_LENGTH 20
 
@@ -46,9 +51,13 @@
 #define O_MSG_DATE_YEAR "\tyear: "
 #define O_MSG_DATE_MONTH "\tmonth: "
 #define O_MSG_DATE_DAY "\tday: "
+#define O_MSG_ADDMORE_LINES "Want to add more? "
+#define O_MSG_SERICECOST "Insert service cost: "
 #define O_MSG_STREET "Insert street: "
 #define O_MSG_NUMBER "Insert street number: "
-#define O_MSG_POSTALCODE "Insert Postal Code: "
+#define O_MSG_POSTALCODE "Insert Postal Code: \n"
+#define O_MSG_POSTALCODE_PREFIX "Prefix: "
+#define O_MSG_POSTALCODE_SUFIX "Sufix: "
 #define O_MSG_CITY "Insert City: "
 #define O_MSG_WORKER_APPROVAL_BI "Insert worker approval BI: "
 #define O_MSG_WORKER_DELIVER_BI "Insert worker deliver BI: "
@@ -84,11 +93,16 @@ typedef struct {
     float pricePerUnit;
 } OrderLine;
 
+typedef struct {
+    int prefix;
+    int sufix;
+} PostalCode;
+
 // STRUCT ADDRESS
 typedef struct {
     char street[O_STREET_LENGTH];
     int number;
-    char postalCode[O_POSTALCODE_LENGTH];
+    PostalCode postalCode;
     char city[O_CITY_LENGTH];
     Coordinates coord;
 } Address;

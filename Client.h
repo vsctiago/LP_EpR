@@ -53,6 +53,26 @@ typedef struct {
     long phoneNumber2;
 } Client;
 
+void createClientsFile(Client clients[]);
+void saveClientsFile(Client clients[]);
+Client readClientsFile(Client clients[]);
+void createClientCountFile(int *cCount);
+void saveClientCountFile(int *cCount);
+int readClientCountFile(int *cCount);
+void setClientBI(Client *clients, int pos);
+void setClientPassword(Client *clients, int pos);
+void setClientName(Client *clients, int pos);
+void setClientCreditCard(Client *clients, int pos);
+void setClientPhoneNumber(long *phoneNumber);
+void setClientPhoneNumber1(Client *clients, int pos);
+void setClientPhoneNumber2(Client *clients, int pos);
+bool verifyIfClientsFull(int *cCount);
+int verifyIfClientBIExist(Client *clients, long bi, int *cCount);
+long loginClient(Client *clients, int *cCount);
+void addClient(Client *clients, int *cCount);
+void editClient(Client *clients, int *cCount);
+void removeClient(Client *clients, int *cCount);
+void listClients(Client *clients, int *cCount);
 
 #ifdef __cplusplus
 extern "C" {

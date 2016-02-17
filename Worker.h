@@ -36,7 +36,7 @@
 #define W_ERROR_MSG_BI_NOTFOUND "ERROR: Worker BI not found.\n"
 #define W_ERROR_MSG_PASS_WRONG "ERROR: Wrong Password.\n"
 
-    // NOMES DE FICHEIROS
+// NOMES DE FICHEIROS
 #define W_FILE_NAME "Worker"
 #define W_FILE_NAME_COUNT "OrderWorker" 
 
@@ -51,6 +51,21 @@ typedef struct {
     WorkerType type;
 } Worker;
 
+void createWorkersFile(Worker worker[]);
+void createWorkersFile(Worker worker[]);
+Worker readWorkersFile(Worker worker[]);
+void createWorkerCountFile(int *wCount);
+void saveWorkerCountFile(int *wCount);
+int readWorkerCountFile(int *wCount);
+void setWorkerName(Worker *worker, int pos);
+void setWorkerType(Worker *w, int pos);
+bool verifyIfWorkersFull(int *wCount);
+int verifyIfWorkerBIExist(Worker *w, long bi, int *wCount);
+long loginWorker(Worker *w, int *wCount);
+void addWorker(Worker *w, int *wCount);
+void listWorkers(Worker *w, int *wCount);
+void editWorker(Worker *worker, int *wCount);
+void removeWorker(Worker *w, int *wCount);
 
 #ifdef __cplusplus
 extern "C" {

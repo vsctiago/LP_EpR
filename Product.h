@@ -41,6 +41,23 @@ extern "C" {
         float pricePerUnit;
     } Product;
 
+void createProductsFile(Product products[]);
+void saveProductsFile(Product products[]);
+Client readProductsFile(Product products[]);
+void createProductCountFile(int *prCount);
+void saveProductCountFile(int *pCount);
+int readProductCountFile(int *pCount);
+void setProductId(Product *products, int pos);
+void setProductName(Product *products, int pos);
+void setProductDescription(Product *products, int pos);
+bool verifyIfProductsFull(int *pCount);
+int verifyIfProductIDExist(Product *products, int id, int *pCount);
+void addProduct(Product *products, int *pCount);
+void editProduct(Product *products, int *pCount);
+void removeProduct(Product *products, int *pCount);
+void listProducts(Product *products, int *pCount);
+
+
 
 #ifdef	__cplusplus
 }

@@ -16,3 +16,9 @@ void clientMenu() {
     puts("4. Back.");
 }
 
+void manageMenu() {
+    puts("## Manager Menu ##");
+    puts("1. Register.");
+    puts("2. Login.");
+    puts("3. Back.");
+}

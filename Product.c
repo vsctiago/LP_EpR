@@ -42,13 +42,13 @@ Product readProductsFile(Product products[]) {
     }
 }
 
-void createProductCountFile(int *prCount) {
-    FILE *pPRcount = fopen(P_FILE_NAME_COUNT, "w");
-    if (pPRcount == (FILE*) NULL) {
+void createProductCountFile(int *pCount) {
+    FILE *pPcount = fopen(P_FILE_NAME_COUNT, "w");
+    if (pPcount == (FILE*) NULL) {
         printf("Couldn't create %s File. ", P_FILE_NAME);
     } else {
-        fwrite(prCount, sizeof (int), 1, pPRcount);
-        fclose(pPRcount);
+        fwrite(pCount, sizeof (int), 1, pPcount);
+        fclose(pPcount);
     }
 }
 

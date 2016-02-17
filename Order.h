@@ -144,6 +144,7 @@ void addOrder();
 void editOrder();
 void removeOrder();
 void listOrder();
+bool checkDate(Date *newDate, Date *oldDate);
 
 
 

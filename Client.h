@@ -78,8 +78,9 @@ bool verifyIfClientsFull(int *cCount);
 int verifyIfClientBIExist(Client *clients, long bi, int *cCount);
 int loginClient(Client *clients, int *cCount);
 void addClient(Client *clients, int *cCount);
-void editClient(Client *clients, int *cCount);
-void removeClient(Client *clients, int *cCount);
+void editClient(Client *clients, int *cCount, int posLogged);
+void editClientAdmin(Client *clients, int *cCount);
+void removeClientAdmin(Client *clients, int *cCount);
 void listMyClient(Client Client);
 void listAllClients(Client *clients, int *cCount);
 

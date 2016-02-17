@@ -4,7 +4,6 @@
 #include "Client.h"
 #include "LP_Leitura.h"
 
-
 void createClientsFile(Client clients[]) {
     FILE *pClients = fopen("Clients", "w");
     if (pClients == (FILE*) NULL) {
@@ -116,20 +115,20 @@ void setClientPhoneNumber(long *phoneNumber, char msg[]) {
 void setClientPhoneNumber1(Client *clients, int pos) {
     do {
         setClientPhoneNumber(&clients[pos].phoneNumber1, C_MSG_PHONENUMBER1);
-        if(clients[pos].phoneNumber1 == 0)
+        if (clients[pos].phoneNumber1 == 0)
             printf("Error: Invalid Number - can't be 0!!");
-    } while(clients[pos].phoneNumber1 == 0);
+    } while (clients[pos].phoneNumber1 == 0);
 }
 
 void setClientPhoneNumber2(Client *clients, int pos) {
     bool val = false;
     do {
         setClientPhoneNumber(&clients[pos].phoneNumber2, C_MSG_PHONENUMBER2);
-            if (clients[pos].phoneNumber2 == clients[pos].phoneNumber1) {
-                puts("Error: Repeated number!!");
-            } else {
-                val = true;
-            }
+        if (clients[pos].phoneNumber2 == clients[pos].phoneNumber1) {
+            puts("Error: Repeated number!!");
+        } else {
+            val = true;
+        }
     } while (val == false);
 }
 
@@ -194,7 +193,17 @@ void addClient(Client *clients, int *cCount) {
     }
 }
 
-void editClient(Client *clients, int *cCount) {
+void editClient(Client *clients, int *cCount, int posLogged) {
+    setClientPassword(clients, posLogged);
+    setClientName(clients, posLogged);
+    setClientCreditCard(clients, posLogged);
+    setClientPhoneNumber1(clients, posLogged);
+    setClientPhoneNumber2(clients, posLogged);
+    saveClientsFile(clients);
+    saveClientCountFile(cCount);
+}
+
+void editClientAdmin(Client *clients, int *cCount) {
     int cBI;
     int pos;
 
@@ -213,7 +222,7 @@ void editClient(Client *clients, int *cCount) {
     }
 }
 
-void removeClient(Client *clients, int *cCount) {
+void removeClientAdmin(Client *clients, int *cCount) {
     long cBI;
     int pos;
 
@@ -231,14 +240,14 @@ void removeClient(Client *clients, int *cCount) {
     }
 }
 
-void listMyClient(Client Client){
+void listMyClient(Client Client) {
     printf(" -> "
             "BI: %ld | "
             "Name: %s\n | "
             "creditCard: %ld%08ld\n | "
             "PhoneNumber1: %ld | "
-            "PhoneNumber2: %ld", 
-            Client.bi, 
+            "PhoneNumber2: %ld\n",
+            Client.bi,
             Client.name,
             Client.creditCard.bankNumber,
             Client.creditCard.accountNumber,

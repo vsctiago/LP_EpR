@@ -217,7 +217,7 @@ void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCou
             orders[pos].approvalWorkerBI = pBi;
             setOrderApprovalDate(orders, pos);
             setOrderExpectedDeliveryDate(orders, pos);
-            setOrderDeliveryman(orders, workers, pos, wCount);
+            setOrderDeliveryman(orders, workers, pos, *wCount);
             orders[pos].delivered = false;
         } else {
             printf(O_ERROR_MSG_BI_INVALID);
@@ -280,7 +280,7 @@ void removeOrderClient(Order *orders, int *oCount, long clientBI, int orderID){
 
 void listMyOrders(Order *orders, int *oCount, long clientBI) {
     int pos = 0;
-    for(pos=0; pos<oCount; pos++) {
+    for(pos=0; pos<*oCount; pos++) {
         if(orders[pos].clientBI == clientBI) {
             printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
                     orders[pos].orderDate.day, orders[pos].orderDate.month,
@@ -291,7 +291,7 @@ void listMyOrders(Order *orders, int *oCount, long clientBI) {
 
 void listMyOrdersPendingApproval(Order *orders, int *oCount, long clientBI) {
     int pos = 0;
-    for(pos=0; pos<oCount; pos++) {
+    for(pos=0; pos<*oCount; pos++) {
         if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI == 0) {
             printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
                     orders[pos].orderDate.day, orders[pos].orderDate.month,
@@ -302,7 +302,7 @@ void listMyOrdersPendingApproval(Order *orders, int *oCount, long clientBI) {
 
 void listMyOrdersPendingDelivery(Order *orders, int *oCount, long clientBI) {
     int pos = 0;
-    for(pos=0; pos<oCount; pos++) {
+    for(pos=0; pos<*oCount; pos++) {
         if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI != 0 && orders[pos].delivered == 0) {
             printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
                     orders[pos].orderDate.day, orders[pos].orderDate.month,

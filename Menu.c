@@ -10,7 +10,7 @@ void mainMenu(Client *clients, Worker *workers, Order *orders, int *clientCount,
         switch (op) {
             case 0: //exit
                 cleanScreen();
-                printf("MSG DESPEDIDA");
+                printf("MSG DESPEDIDA\n");
                 break;
             case 1: //Register Client
                 cleanScreen();

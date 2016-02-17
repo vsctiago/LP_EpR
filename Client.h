@@ -37,6 +37,10 @@
 #define C_ERROR_MSG_BI_NOTFOUND "ERROR: BI not found! "
 #define C_ERROR_MSG_PASS_WRONG "ERROR: Wrong Password. "
 
+// NOMES DE FICHEIROS
+#define C_FILE_NAME "Clients"
+#define C_FILE_NAME_COUNT "ClientCount" 
+
 // STRUCT CREDITCARD
 typedef struct {
     long bankNumber;

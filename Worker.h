@@ -37,8 +37,8 @@
 #define W_ERROR_MSG_PASS_WRONG "ERROR: Wrong Password.\n"
 
 // NOMES DE FICHEIROS
-#define W_FILE_NAME "Worker"
-#define W_FILE_NAME_COUNT "OrderWorker" 
+#define W_FILE_NAME "Workers"
+#define W_FILE_NAME_COUNT "WorkerCount" 
 
 typedef enum {
     HANDLING = 1, DELIVERY

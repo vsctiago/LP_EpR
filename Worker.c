@@ -3,23 +3,23 @@
 #include <stdlib.h>
 #include "Worker.h"
 
-void createWorkersFile(Worker worker[]) {
+void createWorkersFile(Worker workers[]) {
     FILE *pWorkers = fopen(W_FILE_NAME, "w");
     if (pWorkers == (FILE*) NULL) {
         printf("Couldn't create %s File. ", W_FILE_NAME);
     } else {
-        fwrite(worker, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        fwrite(workers, sizeof (Worker), WORKERS_SIZE, pWorkers);
         fclose(pWorkers);
     }
 }
 
-void saveWorkersFile(Worker worker[]) {
+void saveWorkersFile(Worker workers[]) {
     FILE *pWorkers = fopen(W_FILE_NAME, "w");
     if (pWorkers == (FILE *) NULL) {
         printf("%s file doesn't exist.\n", W_FILE_NAME);
         printf("Couldn't save %s file.\n", W_FILE_NAME);
     } else {
-        fwrite(worker, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        fwrite(workers, sizeof (Worker), WORKERS_SIZE, pWorkers);
         printf("%s file saved.\n", W_FILE_NAME);
         fclose(pWorkers);
     }

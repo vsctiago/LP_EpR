@@ -6,6 +6,7 @@
 #include "Client.h"
 #include "LP_Leitura.h"
 #include "Worker.h"
+#include "Product.h"
 
 
 void createOrdersFile(Order o[]) {
@@ -104,7 +105,7 @@ void setOrderClientBi(Order *o, int pos, Client *c, int cCount) {
             printf(O_ERROR_MSG_BI_NOTFOUND);
         } else {
             o[pos].clientBI = pBi;
-            serOrderDate;
+            setOrderDate(o, pos);
         }
     } while (verify = EOF);
 }
@@ -125,8 +126,32 @@ void setDate(Date *date, char msgDate[]) {
     readInt(date->day, O_DATE_DAY_MIN, O_DATE_DAY_MAX, O_MSG_DATE_DAY);
 }
 
-void serOrderDate(Order *o, int pos){
+void setOrderDate(Order *o, int pos){
     setCurrentDate(o[pos].orderDate);
+}
+
+void setOrderProductId(Order *o, int pos, Product *p, int pCount){
+    long *pId, verify = EOF;
+    
+    do {
+        readLong(&pId,P_ID_MAX,P_ID_MIN,P_MSG_ID);
+        verify = verifyIfProductIDExist(p, pId, pCount);
+        if (verify == EOF) {
+            printf(O_ERROR_MSG_ID_NOTFOUND);
+        } else {
+            p[pos].id = pId;
+            setOrderProductPriceU(o, pos, p[verify].pricePerUnit);
+            o[pos].contlines++;
+        }
+    } while (verify = EOF);
+}
+
+void setOrderProductQuantity(Order *o, int pos){
+    readInt(o[pos].lines[o[pos].contlines].quantity, O_QUANTITY_MIN, O_QUANTITY_MAX, O_MSG_QUANTITY);
+}
+
+void setOrderProductPriceU(Order *o, int pos, float pricePerUnit){
+    o[pos].lines[o[pos].contlines].pricePerUnit;
 }
 
 void setOrderLines() {
@@ -161,7 +186,7 @@ void setOrderApprovalWorkerBI(Order *o, Worker *w, int pos, int wCount) {
     long *pBi , val = EOF;
 
     do {
-        setOrderBI(&pBi, O_MSG_WORKER_BI);
+        setOrderBI(&pBi, O_MSG_WORKER_APPROVAL_BI);
         val = verifyIfWorkerBIExist(w, pBi, wCount);
         if (val != EOF && w[val].type == WorkerType.HANDLING) {
             o[pos].approvalWorkerBI = pBi;
@@ -184,7 +209,7 @@ void setOrderDeliveryman(Order *o, Worker *w, int pos, int wCount) {
     long delivermanBi, val = EOF;
 
     do {
-        setOrderBI(&delivermanBi, O_MSG_WORKER_BI);
+        setOrderBI(&delivermanBi, O_MSG_WORKER_DELIVER_BI);
         val = verifyIfWorkerBIExist(w, delivermanBi, wCount);
         if (val != EOF && w[val].type == WorkerType.DELIVERY) {
             o[pos].deliveryman = w[val];

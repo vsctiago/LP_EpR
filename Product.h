@@ -22,6 +22,7 @@ extern "C" {
 
     // MESSAGES FOR INPUTS
 #define P_MSG_BI "Insert id: "
+#define P_MSG_ID "Insert id: "
 #define P_MSG_NAME "Insert name: "
 #define P_MSG_DESCRIPTION "Insert description: "
 
@@ -37,6 +38,7 @@ extern "C" {
         int id;
         char name[P_NAME_LENGTH];
         char description[P_DESCRIPTION_LENGTH];
+        float pricePerUnit;
     } Product;
 
 

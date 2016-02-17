@@ -22,6 +22,8 @@
 #define ORDERS_SIZE 100
 #define O_ID_MIN 1
 #define O_ID_MAX 9999999
+#define O_QUANTITY_MIN 1
+#define O_QUANTITY_MAX 100
 #define O_DATE_DAY_MIN 1
 #define O_DATE_DAY_MAX 31
 #define O_DATE_MONTH_MIN 1
@@ -37,6 +39,7 @@
 
 // MESSAGES FOR INPUTS
 #define O_MSG_CLIENT_BI "Insert client BI: "
+#define O_MSG_QUANTITY "Insert quantity: "
 #define O_MSG_EXPECTED_DELIVERY_DATE "Insert expected delivery date:\n"
 #define O_MSG_ACTUAL_DELIVERY_DATE "Insert actual delivery date:\n"
 #define O_MSG_DATE_YEAR "\tyear: "
@@ -46,12 +49,14 @@
 #define O_MSG_NUMBER "Insert street number: "
 #define O_MSG_POSTALCODE "Insert Postal Code: "
 #define O_MSG_CITY "Insert City: "
-#define O_MSG_WORKER_BI "Insert worker BI: "
+#define O_MSG_WORKER_APPROVAL_BI "Insert worker approval BI: "
+#define O_MSG_WORKER_DELIVER_BI "Insert worker deliver BI: "
 
 // ERROR MESSAGES
 #define O_ERROR_MSG_FULL RED "ERROR: " RESET "Full, can't add more orders.\n"
 #define O_ERROR_MSG_BI_INVALID RED "ERROR: " RESET "BI invalid! \n"
 #define O_ERROR_MSG_BI_NOTFOUND RED "ERROR: " RESET "BI not found!\n"
+#define O_ERROR_MSG_ID_NOTFOUND RED "ERROR: " RESET "ID not found!\n"
 #define O_ERRO_MSG_REMOVE_ORDER RED "YOU SHOULDN'T REMOVE ANY ORDER\n" RESET
 
 // NOMES DE FICHEIROS

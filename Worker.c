@@ -3,39 +3,39 @@
 #include <stdlib.h>
 #include "Worker.h"
 
-void createWorkersFile(Worker w[]) {
+void createWorkersFile(Worker worker[]) {
     FILE *pWorkers = fopen(W_FILE_NAME, "w");
     if (pWorkers == (FILE*) NULL) {
         printf("Couldn't create %s File. ", W_FILE_NAME);
     } else {
-        fwrite(w, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        fwrite(worker, sizeof (Worker), WORKERS_SIZE, pWorkers);
         fclose(pWorkers);
     }
 }
 
-void saveWorkersFile(Worker w[]) {
+void saveWorkersFile(Worker worker[]) {
     FILE *pWorkers = fopen(W_FILE_NAME, "w");
     if (pWorkers == (FILE *) NULL) {
         puts("%s file doesn't exist.", W_FILE_NAME);
         puts("Couldn't save %s file.", W_FILE_NAME);
     } else {
-        fwrite(w, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        fwrite(worker, sizeof (Worker), WORKERS_SIZE, pWorkers);
         puts("%s file saved.", W_FILE_NAME);
         fclose(pWorkers);
     }
 }
 
-Worker readWorkersFile(Worker w[]) {
+Worker readWorkersFile(Worker worker[]) {
 
     FILE *pWorkers = fopen(W_FILE_NAME, "r");
     if (pWorkers == (FILE *) NULL) {
         puts("%s file doesn't exist", W_FILE_NAME);
         puts("Creating %s file now...", W_FILE_NAME);
-        createWorkersFile(w);
+        createWorkersFile(worker);
         puts("%s file created");
         //readWorkersFile(w);
     } else {
-        fread(w, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        fread(worker, sizeof (Worker), WORKERS_SIZE, pWorkers);
         fclose(pWorkers);
     }
 }
@@ -77,8 +77,8 @@ int readWorkerCountFile(int *wCount) {
     }
 }
 
-void setWorkerName(Worker *w, int pos) {
-    readString(w[pos].name, W_NAME_LENGTH, W_MSG_NAME);
+void setWorkerName(Worker *worker, int pos) {
+    readString(worker[pos].name, W_NAME_LENGTH, W_MSG_NAME);
 }
 
 void setWorkerType(Worker *w, int pos) {
@@ -156,17 +156,17 @@ void listWorkers(Worker *w, int *wCount) {
     }
 }
 
-void editWorker(Worker *w, int *wCount) {
+void editWorker(Worker *worker, int *wCount) {
     int wBI;
     int pos;
 
-    listWorkers(w, wCount);
+    listWorkers(worker, wCount);
     readInt(&wBI, W_BI_MIN, W_BI_MAX, "Which Worker to Edit(BI): ");
-    pos = verifyIfWorkerBIExist(w, wBI, wCount);
+    pos = verifyIfWorkerBIExist(worker, wBI, wCount);
     if (pos != EOF) {
-        setWorkerName(w, pos);
-        setWorkerType(w, pos);
-        saveWorkersFile(w);
+        setWorkerName(worker, pos);
+        setWorkerType(worker, pos);
+        saveWorkersFile(worker);
         saveWorkerCountFile(wCount);
     } else {
         puts(W_ERROR_MSG_BI_NOTFOUND);

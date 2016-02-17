@@ -163,7 +163,7 @@ void listProducts(Product *p, int *pCount) {
     int pos;
 
     for (pos = 0; pos<*pCount; pos++) {
-        printf("\n->Position [%d]\n")
+        printf("\n->Position [%d]\n");
         printf("\tProduct ID:\t%d\n", p[pos].id);
         printf("\tProduct NAME:\t%s\n", p[pos].name);
         printf("\tProduct DESCRIPTION:\t%s\n", p[pos].description);

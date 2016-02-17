@@ -31,7 +31,7 @@ void saveOrdersFile(Order o[]) {
     }
 }
 
-Client readOrdersFile(Order o[]) {
+Order readOrdersFile(Order o[]) {
 
     FILE *pOrders = fopen(O_FILE_NAME, "r");
     if (pOrders == (FILE *) NULL) {
@@ -39,7 +39,7 @@ Client readOrdersFile(Order o[]) {
         printf("Creating %s file now...\n", O_FILE_NAME);
         createOrdersFile(o);
         printf("%s file created\n", O_FILE_NAME);
-        //readProductFile(p); 
+        //readOrderFile(p); 
     } else {
         fread(o, sizeof (Product), ORDERS_SIZE, pOrders);
         fclose(pOrders);
@@ -68,15 +68,15 @@ void saveOrderCountFile(int *oCount) {
     }
 }
 
-int readProductCountFile(int *oCount) {
+int readOrderCountFile(int *oCount) {
 
     FILE *pOcount = fopen(O_FILE_NAME_COUNT, "r");
     if (pOcount == (FILE *) NULL) {
         printf("%s file doesn't exist\n");
         printf("Creating %s file now...\n", O_FILE_NAME_COUNT);
-        createClientCountFile(oCount);
+        createOrderCountFile(oCount);
         printf("%s file created\n", O_FILE_NAME_COUNT);
-        //readClientCountFile(prCount);
+        //readOrderCountFile(prCount);
     } else {
         fread(oCount, sizeof (int), 1, pOcount);
         fclose(pOcount);

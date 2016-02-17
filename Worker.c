@@ -25,17 +25,17 @@ void saveWorkersFile(Worker worker[]) {
     }
 }
 
-Worker readWorkersFile(Worker worker[]) {
+Worker readWorkersFile(Worker workers[]) {
 
     FILE *pWorkers = fopen(W_FILE_NAME, "r");
     if (pWorkers == (FILE *) NULL) {
         printf("%s file doesn't exist\n", W_FILE_NAME);
         printf("Creating %s file now...\n", W_FILE_NAME);
-        createWorkersFile(worker);
+        createWorkersFile(workers);
         printf("%s file created\n");
-        //readWorkersFile(w);
+        readWorkersFile(workers);
     } else {
-        fread(worker, sizeof (Worker), WORKERS_SIZE, pWorkers);
+        fread(workers, sizeof (Worker), WORKERS_SIZE, pWorkers);
         fclose(pWorkers);
     }
 }
@@ -70,7 +70,7 @@ int readWorkerCountFile(int *wCount) {
         printf("Creating %s file now...\n", W_FILE_NAME_COUNT);
         createWorkerCountFile(wCount);
         printf("%s file created\n", W_FILE_NAME_COUNT);
-        //readWorkerCountFile(wCount);
+        readWorkerCountFile(wCount);
     } else {
         fread(wCount, sizeof (int), 1, pWcount);
         fclose(pWcount);

@@ -70,9 +70,9 @@ int readProductCountFile(int *pCount) {
     if (pPcount == (FILE *) NULL) {
         printf("%s file doesn't exist\n");
         printf("Creating %s file now...\n", P_FILE_NAME_COUNT);
-        createClientCountFile(pCount);
+        createProductCountFile(pCount);
         printf("%s file created\n", P_FILE_NAME_COUNT);
-        //readClientCountFile(prCount);
+        //readProductCountFile(prCount);
     } else {
         fread(pCount, sizeof (int), 1, pPcount);
         fclose(pPcount);

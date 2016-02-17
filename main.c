@@ -16,6 +16,7 @@
 #include <stdbool.h>
 #include "Client.h"
 #include "Worker.h"
+#include "Product.h"
 #include "Order.h"
 #include "Menu.h"
 

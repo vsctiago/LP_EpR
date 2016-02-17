@@ -71,7 +71,7 @@ void setClientBI(Client *clients, int pos);
 void setClientPassword(Client *clients, int pos);
 void setClientName(Client *clients, int pos);
 void setClientCreditCard(Client *clients, int pos);
-void setClientPhoneNumber(long *phoneNumber);
+void setClientPhoneNumber(long *phoneNumber, char msg[]);
 void setClientPhoneNumber1(Client *clients, int pos);
 void setClientPhoneNumber2(Client *clients, int pos);
 bool verifyIfClientsFull(int *cCount);
@@ -80,7 +80,8 @@ int loginClient(Client *clients, int *cCount);
 void addClient(Client *clients, int *cCount);
 void editClient(Client *clients, int *cCount);
 void removeClient(Client *clients, int *cCount);
-void listClients(Client *clients, int *cCount);
+void listMyClient(Client Client);
+void listAllClients(Client *clients, int *cCount);
 
 #ifdef __cplusplus
 extern "C" {

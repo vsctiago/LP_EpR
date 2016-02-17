@@ -198,7 +198,6 @@ void editClient(Client *clients, int *cCount) {
     int cBI;
     int pos;
 
-    listClients(clients, cCount);
     readInt(&cBI, C_BI_MIN, C_BI_MAX, "Which Client to Edit(BI): ");
     pos = verifyIfClientBIExist(clients, cBI, cCount);
     if (pos != EOF) {
@@ -218,7 +217,6 @@ void removeClient(Client *clients, int *cCount) {
     long cBI;
     int pos;
 
-    listClients(clients, cCount);
     readLong(&cBI, C_BI_MIN, C_BI_MAX, "Which Client to Remove(BI): ");
     pos = verifyIfClientBIExist(clients, cBI, cCount);
     if (pos != EOF) {

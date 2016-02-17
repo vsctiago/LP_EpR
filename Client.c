@@ -152,7 +152,7 @@ int verifyIfClientBIExist(Client *clients, long bi, int *cCount) {
     return EOF;
 }
 
-long loginClient(Client *clients, int *cCount) {
+int loginClient(Client *clients, int *cCount) {
     int pos;
     long tempBI;
     char tempPASS[C_PASSWORD_LENGTH];
@@ -162,7 +162,7 @@ long loginClient(Client *clients, int *cCount) {
     if (pos != EOF) {
         readString(tempPASS, C_PASSWORD_LENGTH, C_MSG_PASSWORD);
         if (strcmp(tempPASS, clients[pos].password) == 0) {
-            return tempBI;
+            return pos;
         } else {
             puts(C_ERROR_MSG_PASS_WRONG);
             return EOF;

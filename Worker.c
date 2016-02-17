@@ -112,7 +112,7 @@ int verifyIfWorkerBIExist(Worker *workers, long bi, int *wCount) {
     return EOF;
 }
 
-long loginWorker(Worker *workers, int *wCount) {
+int loginWorker(Worker *workers, int *wCount) {
     int pos;
     long tempBI;
     char tempPASS[W_PASSWORD_LENGTH];
@@ -122,7 +122,7 @@ long loginWorker(Worker *workers, int *wCount) {
     if (pos != EOF) {
         readString(tempPASS, W_PASSWORD_LENGTH, W_MSG_PASSWORD);
         if (strcmp(tempPASS, workers[pos].password) == 0) {
-            return tempBI;
+            return pos;
         } else {
             puts(W_ERROR_MSG_PASS_WRONG);
             return EOF;

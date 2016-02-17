@@ -106,7 +106,7 @@ typedef struct {
     long approvalWorkerBI;
     Date approvalDate;
     Date expectedDeliveryDate;
-    Worker deliveryman;
+    long deliveryman;
     Date actualDeliveryDate;
     bool delivered;
 } Order;

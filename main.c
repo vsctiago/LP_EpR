@@ -29,8 +29,8 @@ int main(int argc, char** argv) {
     Worker workers[WORKERS_SIZE];
     Order orders[ORDERS_SIZE];
     int clientCount = 0, workerCount = 0, orderCount = 0;
-    int menuOpt;
-    long clientLogged = 0, workerLogged = 0;
+    int menuOpt, posLogged = 0;
+
     
     readClientsFile(clients);
     readClientCountFile(&clientCount);
@@ -44,8 +44,8 @@ int main(int argc, char** argv) {
         if(menuOpt == 1) {
             addClient(clients, &clientCount);
         } else if(menuOpt == 2) {
-            clientLogged = loginClient(clients, &clientCount);
-            if(clientLogged != EOF) {
+            posLogged = loginClient(clients, &clientCount);
+            if(posLogged != EOF) {
                 // MENU DE CLIENTE ETC.. 
                 // BREAK WHILE(TRUE) PA SAIR DO PROGRAMA
             }
@@ -56,8 +56,8 @@ int main(int argc, char** argv) {
             if(menuOpt == 1) {
                 addWorker(workers, &workerCount);
             } else if(menuOpt == 2) {
-                workerLogged = loginWorker(workers, &workerCount);
-                if(workerLogged != EOF) {
+                posLogged = loginWorker(workers, &workerCount);
+                if(posLogged != EOF) {
                     // Administration MENU and sheit
                     // BREAK WHILE(TRUE) PA SAIR DO PROGRAMA
                 }

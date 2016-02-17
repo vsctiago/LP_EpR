@@ -74,7 +74,7 @@ void setClientPhoneNumber1(Client *clients, int pos);
 void setClientPhoneNumber2(Client *clients, int pos);
 bool verifyIfClientsFull(int *cCount);
 int verifyIfClientBIExist(Client *clients, long bi, int *cCount);
-long loginClient(Client *clients, int *cCount);
+int loginClient(Client *clients, int *cCount);
 void addClient(Client *clients, int *cCount);
 void editClient(Client *clients, int *cCount);
 void removeClient(Client *clients, int *cCount);

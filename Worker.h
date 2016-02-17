@@ -62,7 +62,7 @@ void setWorkerName(Worker *workers, int pos);
 void setWorkerType(Worker *workers, int pos);
 bool verifyIfWorkersFull(int *wCount);
 int verifyIfWorkerBIExist(Worker *workers, long bi, int *wCount);
-long loginWorker(Worker *workers, int *wCount);
+int loginWorker(Worker *workers, int *wCount);
 void addWorker(Worker *workers, int *wCount);
 void listWorkers(Worker *workers, int *wCount);
 void editWorker(Worker *workers, int *wCount);

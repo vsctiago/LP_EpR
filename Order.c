@@ -212,7 +212,7 @@ void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int wCount) {
         setOrderBI(&delivermanBi, O_MSG_WORKER_DELIVER_BI);
         val = verifyIfWorkerBIExist(workers, delivermanBi, &wCount);
         if (val != EOF && workers[val].type == 2) {
-            orders[pos].deliveryman = workers[val];
+            orders[pos].deliveryman = workers[val].bi;
         } else {
             printf(O_ERROR_MSG_BI_INVALID);
         }

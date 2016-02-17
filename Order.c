@@ -22,11 +22,11 @@ void createOrdersFile(Order o[]) {
 void saveOrdersFile(Order o[]) {
     FILE *pOrders = fopen(O_FILE_NAME, "w");
     if (pOrders == (FILE *) NULL) {
-        puts("%s file doesn't exist.", O_FILE_NAME);
-        puts("Couldn't save %s file.", O_FILE_NAME);
+        printf("%s file doesn't exist.\n", O_FILE_NAME);
+        printf("Couldn't save %s file.\n", O_FILE_NAME);
     } else {
         fwrite(o, sizeof (Order), ORDERS_SIZE, pOrders);
-        puts("%s file saved.", O_FILE_NAME);
+        printf("%s file saved.\n", O_FILE_NAME);
         fclose(pOrders);
     }
 }
@@ -35,13 +35,13 @@ Client readOrdersFile(Order o[]) {
 
     FILE *pOrders = fopen(O_FILE_NAME, "r");
     if (pOrders == (FILE *) NULL) {
-        puts("%s file doesn't exist", O_FILE_NAME);
-        puts("Creating %s file now...", O_FILE_NAME);
+        printf("%s file doesn't exist\n", O_FILE_NAME);
+        printf("Creating %s file now...\n", O_FILE_NAME);
         createOrdersFile(o);
-        puts("%s file created", O_FILE_NAME);
+        printf("%s file created\n", O_FILE_NAME);
         //readProductFile(p); 
     } else {
-        fread(o, sizeof (Product), O_FILE_NAME, pOrders);
+        fread(o, sizeof (Product), ORDERS_SIZE, pOrders);
         fclose(pOrders);
     }
 }
@@ -49,7 +49,7 @@ Client readOrdersFile(Order o[]) {
 void createOrderCountFile(int *oCount) {
     FILE *pOcount = fopen(O_FILE_NAME_COUNT, "w");
     if (pOcount == (FILE*) NULL) {
-        printf("Couldn't create %s File. ", O_FILE_NAME_COUNT);
+        printf("Couldn't create %s File. \n", O_FILE_NAME_COUNT);
     } else {
         fwrite(oCount, sizeof (int), 1, pOcount);
         fclose(pOcount);
@@ -59,11 +59,11 @@ void createOrderCountFile(int *oCount) {
 void saveOrderCountFile(int *oCount) {
     FILE *pOcount = fopen(O_FILE_NAME_COUNT, "w");
     if (pOcount == (FILE *) NULL) {
-        puts("%s file doesn't exist.", O_FILE_NAME_COUNT);
-        puts("Couldn't save %s file.", O_FILE_NAME_COUNT);
+        printf("%s file doesn't exist.\n", O_FILE_NAME_COUNT);
+        printf("Couldn't save %s file.\n", O_FILE_NAME_COUNT);
     } else {
         fwrite(oCount, sizeof (int), 1, pOcount);
-        puts("%s file saved.", O_FILE_NAME_COUNT);
+        printf("%s file saved.\n", O_FILE_NAME_COUNT);
         fclose(pOcount);
     }
 }
@@ -72,10 +72,10 @@ int readProductCountFile(int *oCount) {
 
     FILE *pOcount = fopen(O_FILE_NAME_COUNT, "r");
     if (pOcount == (FILE *) NULL) {
-        puts("%s file doesn't exist");
-        puts("Creating %s file now...", O_FILE_NAME_COUNT);
+        printf("%s file doesn't exist\n");
+        printf("Creating %s file now...\n", O_FILE_NAME_COUNT);
         createClientCountFile(oCount);
-        puts("%s file created", O_FILE_NAME_COUNT);
+        printf("%s file created\n", O_FILE_NAME_COUNT);
         //readClientCountFile(prCount);
     } else {
         fread(oCount, sizeof (int), 1, pOcount);
@@ -91,23 +91,31 @@ void setOrderId(Order *o, int pos) {
     }
 }
 
+void setOrderDate(Order *o, int pos){
+    setCurrentDate(o[pos].orderDate);
+}
+
 void setOrderBI(long *bi, char msg[]) {
-    readLong(&bi, C_BI_MIN, C_BI_MAX, msg);
+    readLong(bi, C_BI_MIN, C_BI_MAX, msg);
 }
 
 void setOrderClientBi(Order *o, int pos, Client *c, int cCount) {
     long *pBi, verify = EOF;
 
     do {
-        setOrderBI(&pBi, O_MSG_CLIENT_BI);
+        setOrderBI(pBi, O_MSG_CLIENT_BI);
         verify = verifyIfClientBIExist(c, pBi, cCount);
         if (verify == EOF) {
             printf(O_ERROR_MSG_BI_NOTFOUND);
         } else {
-            o[pos].clientBI = pBi;
+            o[pos].clientBI = *pBi;
             setOrderDate(o, pos);
         }
     } while (verify = EOF);
+}
+
+void setOrderApprovalDate(Order *o, int pos) {
+    setCurrentDate(o[pos].approvalDate);
 }
 
 void setCurrentDate(Date *date) {
@@ -126,9 +134,7 @@ void setDate(Date *date, char msgDate[]) {
     readInt(date->day, O_DATE_DAY_MIN, O_DATE_DAY_MAX, O_MSG_DATE_DAY);
 }
 
-void setOrderDate(Order *o, int pos){
-    setCurrentDate(o[pos].orderDate);
-}
+
 
 void setOrderProductId(Order *o, int pos, Product *p, int pCount){
     long *pId, verify = EOF;
@@ -195,10 +201,6 @@ void setOrderApprovalWorkerBI(Order *o, Worker *w, int pos, int wCount) {
             printf(O_ERROR_MSG_BI_INVALID);
         }
     } while (val = EOF);
-}
-
-void setOrderApprovalDate(Order *o, int pos) {
-    setCurrentDate(o[pos].approvalDate);
 }
 
 void setOrderExpectedDeliveryDate(Order *o, int pos) {

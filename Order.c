@@ -167,7 +167,7 @@ void setOrderLines(Order *orders, int pos, Product *products, int *pCount) {
     } while(val == true);
 }
 
-void serOrderServiceCost(Order *orders, int pos) {
+void setOrderServiceCost(Order *orders, int pos) {
     readFloat(&orders[pos].serviceCost, O_SERVICECOST_MIN, O_SERVICECOST_MAX, O_MSG_SERICECOST);
 }
 
@@ -216,6 +216,9 @@ void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCou
         if (val != EOF && workers[val].type == 1) {
             orders[pos].approvalWorkerBI = pBi;
             setOrderApprovalDate(orders, pos);
+            setOrderExpectedDeliveryDate(orders, pos);
+            setOrderDeliveryman(orders, workers, pos, wCount);
+            orders[pos].delivered = false;
         } else {
             printf(O_ERROR_MSG_BI_INVALID);
         }
@@ -244,15 +247,69 @@ void setOrderActualDeliveryDate(Order *orders, int pos) {
     setDate(&orders[pos].actualDeliveryDate, O_MSG_ACTUAL_DELIVERY_DATE);
 }
 
-void addOrder(){}
-
-void editOrder(){}
-
-void removeOrder(){
-    printf(O_ERRO_MSG_REMOVE_ORDER);
+void setOrderDelivered(Order *orders, int pos, long deliverymanBI) {
+    if(orders[pos].delivered == false && orders[pos].deliveryman == deliverymanBI &&
+            orders[pos].approvalWorkerBI != 0) {
+        
+        orders[pos].delivered = true;
+        setOrderActualDeliveryDate(orders, pos);
+    }
 }
 
-void listOrder(){}
+void addOrder(Order *orders, int pos, Client *clients, int *cCount, Product *products, int *pCount) {
+    setOrderId(orders, pos);
+    setOrderClientBi(orders, pos, clients, cCount);
+    setOrderDate(orders, pos);
+    setOrderLines(orders, pos, products, pCount);
+    setOrderServiceCost(orders, pos);
+    setOrderAddress(orders, pos);
+    setOrderTotalPrice(orders, pos);
+    orders[pos].approvalWorkerBI = 0;
+}
+
+void editOrder(Order *orders, int pos){
+    
+}
+
+void removeOrderClient(Order *orders, int *oCount, long clientBI, int orderID){
+    //percorrer orders
+    //verificar clientBI == order.clientBI
+    //se sim verificar se orders[pos].approvalWorkerBI != 0
+    //remover e oCount--;
+}
+
+void listMyOrders(Order *orders, int *oCount, long clientBI) {
+    int pos = 0;
+    for(pos=0; pos<oCount; pos++) {
+        if(orders[pos].clientBI == clientBI) {
+            printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
+                    orders[pos].orderDate.day, orders[pos].orderDate.month,
+                    orders[pos].orderDate.year, orders[pos].totalPrice);
+        }
+    }
+}
+
+void listMyOrdersPendingApproval(Order *orders, int *oCount, long clientBI) {
+    int pos = 0;
+    for(pos=0; pos<oCount; pos++) {
+        if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI == 0) {
+            printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
+                    orders[pos].orderDate.day, orders[pos].orderDate.month,
+                    orders[pos].orderDate.year, orders[pos].totalPrice);
+        }
+    }
+}
+
+void listMyOrdersPendingDelivery(Order *orders, int *oCount, long clientBI) {
+    int pos = 0;
+    for(pos=0; pos<oCount; pos++) {
+        if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI != 0 && orders[pos].delivered == 0) {
+            printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
+                    orders[pos].orderDate.day, orders[pos].orderDate.month,
+                    orders[pos].orderDate.year, orders[pos].totalPrice);
+        }
+    }
+}
 
 bool checkDate(Date *newDate, Date *oldDate) {
     bool val = false;

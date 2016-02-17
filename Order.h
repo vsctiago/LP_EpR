@@ -67,7 +67,6 @@
 #define O_ERROR_MSG_BI_INVALID RED "ERROR: " RESET "BI invalid! \n"
 #define O_ERROR_MSG_BI_NOTFOUND RED "ERROR: " RESET "BI not found!\n"
 #define O_ERROR_MSG_ID_NOTFOUND RED "ERROR: " RESET "ID not found!\n"
-#define O_ERRO_MSG_REMOVE_ORDER RED "YOU SHOULDN'T REMOVE ANY ORDER\n" RESET
 
 // FILE NAMES
 #define O_FILE_NAME "Orders"
@@ -121,8 +120,8 @@ typedef struct {
     Date approvalDate;
     Date expectedDeliveryDate;
     long deliveryman;
-    Date actualDeliveryDate;
     bool delivered;
+    Date actualDeliveryDate;
 } Order;
 
 // METHODS
@@ -142,14 +141,14 @@ void setDate(Date *date, char msgDate[]);
 void setOrderProductId(Order *orders, int pos, Product *products, int *pCount);
 void setOrderProductQuantity(Order *orders, int pos);
 void setOrderProductPriceU(Order *orders, int pos, float pricePerUnit);
-void setOrderLines();
-void serOrderServiceCost();
+void setOrderLines(Order *orders, int pos, Product *products, int *pCount);
+void serOrderServiceCost(Order *orders, int pos);
 void setOrderStreet(Order *orders, int pos);
 void setOrderNumber(Order *orders, int pos);
 void setOrderPostalCode(Order *orders, int pos);
 void setOrderCity(Order *orders, int pos);
-void setOrderAddress();
-void setOrderTotalPrice();
+void setOrderAddress(Order *orders, int pos);
+void setOrderTotalPrice(Order *orders, int pos);
 void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount);
 void setOrderExpectedDeliveryDate(Order *orders, int pos);
 void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int wCount);

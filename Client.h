@@ -30,7 +30,8 @@
 #define C_MSG_NAME "Insert name: "
 #define C_MSG_BANKNUMBER "Insert First 8 Numbers: "
 #define C_MSG_ACCOUNTNUMBER "Insert Last 8 Numbers: "
-#define C_MSG_PHONENUMBER "Insert PhoneNumber: "
+#define C_MSG_PHONENUMBER1 "Insert PhoneNumber1: "
+#define C_MSG_PHONENUMBER2 "Insert PhoneNumber2: "
 
 
 // ERROR MESSAGES

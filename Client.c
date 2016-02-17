@@ -97,10 +97,10 @@ void setClientCreditCard(Client *clients, int pos) {
     readLong(&clients[pos].creditCard.accountNumber, C_ACCOUNTNUMBER_MIN, C_ACCOUNTNUMBER_MAX, C_MSG_ACCOUNTNUMBER);
 }
 
-void setClientPhoneNumber(long *phoneNumber) {
+void setClientPhoneNumber(long *phoneNumber, char msg[]) {
     bool val = false;
     do {
-        readLong(phoneNumber, C_PHONENUMBER_MIN, C_PHONENUMBER_MAX, C_MSG_PHONENUMBER);
+        readLong(phoneNumber, C_PHONENUMBER_MIN, C_PHONENUMBER_MAX, msg);
         if (*phoneNumber > 960000000 && *phoneNumber < 969999999 ||
                 *phoneNumber > 930000000 && *phoneNumber < 939999999 ||
                 *phoneNumber > 920000000 && *phoneNumber < 929999999 ||
@@ -115,7 +115,7 @@ void setClientPhoneNumber(long *phoneNumber) {
 
 void setClientPhoneNumber1(Client *clients, int pos) {
     do {
-        setClientPhoneNumber(&clients[pos].phoneNumber1);
+        setClientPhoneNumber(&clients[pos].phoneNumber1, C_MSG_PHONENUMBER1);
         if(clients[pos].phoneNumber1 == 0)
             printf("Error: Invalid Number - can't be 0!!");
     } while(clients[pos].phoneNumber1 == 0);
@@ -124,7 +124,7 @@ void setClientPhoneNumber1(Client *clients, int pos) {
 void setClientPhoneNumber2(Client *clients, int pos) {
     bool val = false;
     do {
-        setClientPhoneNumber(&clients[pos].phoneNumber2);
+        setClientPhoneNumber(&clients[pos].phoneNumber2, C_MSG_PHONENUMBER2);
             if (clients[pos].phoneNumber2 == clients[pos].phoneNumber1) {
                 puts("Error: Repeated number!!");
             } else {
@@ -233,11 +233,28 @@ void removeClient(Client *clients, int *cCount) {
     }
 }
 
-void listClients(Client *clients, int *cCount) {
+void listMyClient(Client Client){
+    printf(" -> "
+            "BI: %ld | "
+            "Name: %s\n | "
+            "creditCard: %ld%08ld\n | "
+            "PhoneNumber1: %ld | "
+            "PhoneNumber2: %ld", 
+            Client.bi, 
+            Client.name,
+            Client.creditCard.bankNumber,
+            Client.creditCard.accountNumber,
+            Client.phoneNumber1,
+            Client.phoneNumber2);
+}
+
+void listAllClients(Client *clients, int *cCount) {
     int pos;
 
     for (pos = 0; pos<*cCount; pos++) {
-        printf("[%d] BI: %ld | %s\n", pos, clients[pos].bi, clients[pos].name);
+        printf("[%d]", pos);
+        listMyClient(clients[pos]);
+        printf("\n");
     }
 }
 

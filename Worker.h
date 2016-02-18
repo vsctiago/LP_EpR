@@ -64,7 +64,7 @@ bool verifyIfWorkersFull(int *wCount);
 int verifyIfWorkerBIExist(Worker *workers, long bi, int *wCount);
 int loginWorker(Worker *workers, int *wCount);
 void addWorker(Worker *workers, int *wCount);
-void listWorkers(Worker *workers, int *wCount);
+void listAllWorkers(Worker *workers, int *wCount);
 void editWorker(Worker *workers, int *wCount);
 void removeWorker(Worker *workers, int *wCount);
 

@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     readWorkerCountFile(&workerCount);
     
 
-    mainMenu(clients, workers, orders, &clientCount, &workerCount, &orderCount);
+    mainMenu(clients, workers, orders, products, &clientCount, &workerCount, &orderCount, &productCount);
 
 
     return (EXIT_SUCCESS);

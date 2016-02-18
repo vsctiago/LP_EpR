@@ -151,7 +151,7 @@ void addWorker(Worker *workers, int *wCount) {
     }
 }
 
-void listWorkers(Worker *workers, int *wCount) {
+void listAllWorkers(Worker *workers, int *wCount) {
     int pos;
 
     for (pos = 0; pos<*wCount; pos++) {
@@ -163,7 +163,7 @@ void editWorker(Worker *workers, int *wCount) {
     int wBI;
     int pos;
 
-    listWorkers(workers, wCount);
+    listAllWorkers(workers, wCount);
     readInt(&wBI, W_BI_MIN, W_BI_MAX, "Which Worker to Edit(BI): ");
     pos = verifyIfWorkerBIExist(workers, wBI, wCount);
     if (pos != EOF) {
@@ -180,7 +180,7 @@ void removeWorker(Worker *workers, int *wCount) {
     long wBI;
     int pos;
 
-    listWorkers(workers, wCount);
+    listAllWorkers(workers, wCount);
     readLong(&wBI, W_BI_MIN, W_BI_MAX, "Which Worker to Remove(BI): ");
     pos = verifyIfWorkerBIExist(workers, wBI, wCount);
     if (pos != EOF) {

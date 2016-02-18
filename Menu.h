@@ -31,9 +31,9 @@
 #define M_ERROR_MSG_INVAL_LOGIN "ERROR: Wrong Password. "
 
 
-void mainMenu(Client *clients, Worker *workers, Order *orders, Product products,
+void mainMenu(Client *clients, Worker *workers, Order *orders, Product *products,
         int *clientCount, int *workerCount, int *orderCount, int *productCount);
-void clientMenu(Client *clients, Order *orders, Product products,
+void clientMenu(Client *clients, Order *orders, Product *products,
         int *clientCount, int *orderCounts, int *productCount);
 void manageMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount);
 void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount);

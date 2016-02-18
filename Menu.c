@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include "Menu.h"
 
-void mainMenu(Client *clients, Worker *workers, Order *orders, Product products,
+void mainMenu(Client *clients, Worker *workers, Order *orders, Product *products,
         int *clientCount, int *workerCount, int *orderCount, int *productCount) {
-    unsigned int op;
+    int op;
     do {
         mainMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
@@ -23,7 +23,7 @@ void mainMenu(Client *clients, Worker *workers, Order *orders, Product products,
                 break;
             case 3: //Manag Worker
                 cleanScreen();
-                manageMenu(clients, workers, orders, clientCount, workerCount, orderCount);
+                manageMenu(clients, workers, orders, products, clientCount, workerCount, orderCount, productCount);
                 break;
             default:
                 printf(MENU_MSG_OPT_INVALID);
@@ -31,9 +31,9 @@ void mainMenu(Client *clients, Worker *workers, Order *orders, Product products,
     } while (op != 0);
 }
 
-void clientMenu(Client *clients, Order *orders, Product products,
+void clientMenu(Client *clients, Order *orders, Product *products,
         int *clientCount, int *orderCounts, int *productCount) {
-    unsigned int op, posLogged = 0;
+    int op, posLogged = 0;
     posLogged = loginClient(clients, clientCount);
     if (posLogged != EOF) {
         do {
@@ -48,29 +48,34 @@ void clientMenu(Client *clients, Order *orders, Product products,
                     break;
                 case 2:
                     cleanScreen();
-                    addOrder(orders, orderCounts, clients, clientCount, products, productCount);
+                    addOrder(orders, *orderCounts, clients, clientCount, products, productCount);
                     break;
-                case 3: //
+                case 3:
+                    cleanScreen();
+                    listMyOrders(orders, *orderCounts, clients[posLogged].bi);
+                    removeOrderClient(orders, *orderCounts, clients[posLogged].bi);
+                    break;
+                case 4: //
                     cleanScreen();
                     listMyClient(clients[posLogged]);
                     printf("\n\n");
                     break;
-                case 4: //
+                case 5: //
                     cleanScreen();
                     editClient(clients, clientCount, posLogged);
                     printf("\n\n");
                     break;
-                case 5: //
+                case 6: //
                     cleanScreen();
                     listMyOrders(orders, orderCounts, orders[posLogged].clientBI);
                     printf("\n\n");
                     break;
-                case 6: //
+                case 7: //
                     cleanScreen();
                     listMyOrdersPendingApproval(orders, orderCounts, orders[posLogged].clientBI);
                     printf("\n\n");
                     break;
-                case 7: //
+                case 8: //
                     cleanScreen();
                     listMyOrdersPendingDelivery(orders, orderCounts, orders[posLogged].clientBI);
                     printf("\n\n");
@@ -82,9 +87,11 @@ void clientMenu(Client *clients, Order *orders, Product products,
     }
 }
 
-void manageMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount) {
-    unsigned int op, posLogged = 0;
-    ;
+void manageMenu(Client *clients, Worker *workers, Order *orders, Product *products,
+        int *clientCount, int *workerCount, int *orderCount, int *productCount) {
+    
+    int op, posLogged = 0;
+    
     do {
         manageMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
@@ -101,12 +108,10 @@ void manageMenu(Client *clients, Worker *workers, Order *orders, int *clientCoun
                 posLogged = loginWorker(workers, workerCount);
                 if (posLogged != EOF) {
                     if (workers[posLogged].type == 1) {
-                        workerHandlingMenu(clients, workers, orders, clientCount, workerCount, orderCount);
+                        workerHandlingMenu(clients, workers, orders, products, clientCount, workerCount, orderCount, productCount, posLogged);
                     } else {
-                        workerDeliveryMenu(clients, workers, orders, clientCount, workerCount, orderCount);
+                        workerDeliveryMenu(clients, workers, orders, clientCount, workerCount, orderCount, posLogged);
                     }
-                } else {
-                    printf("ERRO:");
                 }
                 break;
             default:
@@ -115,46 +120,190 @@ void manageMenu(Client *clients, Worker *workers, Order *orders, int *clientCoun
     } while (op != 0);
 }
 
-void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount) {
-    unsigned int op;
+void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, Product *products,
+        int *clientCount, int *workerCount, int *orderCount, int *productCount, unsigned int posLogged) {
+    
+    int op;
     do {
         workerHandlingMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
         switch (op) {
             case 0: //exit
                 break;
-            case 1: //Listar order sem aprovação
+            case 1: 
                 cleanScreen();
+                workerHandlingProductsMenu(Product, productCount);
                 break;
-            case 2: //Aprovar order
+            case 2: 
                 cleanScreen();
+                workerHandlingOrdersMenu(clients, workers, orders, products, clientCount, workerCount, orderCount, productCount, posLogged);
                 break;
-            case 3: //
+            case 3: 
                 cleanScreen();
+                workerHandlingClientsMenu(clients, clientCount);
+                break;
+            case 4: 
+                cleanScreen();
+                workerHandlingWorkersMenu(Worker, workerCount);
                 break;
             default:
                 printf(MENU_MSG_OPT_INVALID);
         }
     } while (op != 0);
-
 }
 
-void workerDeliveryMenu() {
-    unsigned int op;
+void workerHandlingProductsMenu(Product *products, int *productCount) {
+    int op;
+    do {
+        //workerHandlingProductsMenuPrint();
+        readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
+        switch (op) {
+            case 0: //exit
+                break;
+            case 1: 
+                cleanScreen();
+                addProduct(products, productCount);
+                break;
+            case 2: 
+                cleanScreen();
+                editProduct(products, productCount);
+                break;
+            case 3: 
+                cleanScreen();
+                removeProduct(products, productCount);
+                break;
+            case 4: 
+                cleanScreen();
+                listProducts(products, productCount);
+                break;
+            default:
+                printf(MENU_MSG_OPT_INVALID);
+        }
+    } while (op != 0);
+}
+
+void workerHandlingOrdersMenu(Client *clients, Worker *workers, Order *orders, Product *products, int *clientCount, int *workerCount, int *orderCount, int *productCount, int posLogged) {
+    int op;
+    do {
+        // workerHandlingOrdersMenuPrint();
+        readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
+        switch (op) {
+            case 0: //exit
+                break;
+            case 1: 
+                cleanScreen();
+                setOrderApprovalWorkerBI(orders, workers, *orderCount, workers[posLogged].bi, workerCount);
+                break;
+            case 2: 
+                cleanScreen();
+                int pos = 0;
+                do {
+                    listMyOrders(orders, orderCount, clients[pos].bi);
+                } while(pos < *clientCount);
+                break;
+            case 3: 
+                cleanScreen();
+                listAllOrdersByDate(orders, orderCount);
+                break;
+            case 4: 
+                cleanScreen();
+                do {
+                    listMyOrdersPendingApproval(orders, orderCount, clients[pos].bi);
+                } while(pos < *clientCount);
+                break;
+            case 5: 
+                cleanScreen();
+                do {
+                    listMyOrdersPendingDelivery(orders, orderCount, clients[pos].bi);
+                } while(pos < *clientCount);
+                break;
+            case 6: 
+                cleanScreen();
+                listAllPendingApprovedProducts(orders, products, productCount, orderCount);
+                break;
+            case 7: 
+                cleanScreen();
+                listOrdersByTotalValueFromClient(orders, clients, orderCount, clientCount);
+                break;
+            default:
+                printf(MENU_MSG_OPT_INVALID);
+        }
+    } while (op != 0);
+}
+
+void workerHandlingClientsMenu(Client *clients, int *clientCount) {
+    int op;
+    do {
+        //workerHandlingClientsMenuPrint();
+        readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
+        switch (op) {
+            case 0: //exit
+                break;
+            case 1: 
+                cleanScreen();
+                listAllClients(clients, clientCount);
+                break;
+            case 2: 
+                cleanScreen();
+                editClientAdmin(clients, clientCount);
+                break;
+            case 3: 
+                cleanScreen();
+                removeClientAdmin(clients, clientCount);
+                break;
+            default:
+                printf(MENU_MSG_OPT_INVALID);
+        }
+    } while (op != 0);
+}
+
+void workerHandlingWorkersMenu(Worker *workers, int *workerCount) {
+    int op;
+    do {
+        //workerHandlingWorkersMenuPrint();
+        readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
+        switch (op) {
+            case 0: //exit
+                break;
+            case 1: 
+                cleanScreen();
+                listAllWorkers(workers, workerCount);
+                break;
+            case 2: 
+                cleanScreen();
+                editWorker(workers, workerCount);
+                break;
+            case 3: 
+                cleanScreen();
+                removeWorker(workers, workerCount);
+                break;
+            default:
+                printf(MENU_MSG_OPT_INVALID);
+        }
+    } while (op != 0);
+}
+
+void workerDeliveryMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount, int posLogged) {
+    int op, pos = 0;
     do {
         workerDeliveryMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
         switch (op) {
             case 0: //exit
                 break;
-            case 1: // listMyOrderDelivery
+            case 1:
                 cleanScreen();
+                do {
+                    listMyOrdersPendingDelivery(orders, orderCount, clients[pos].bi);
+                } while(pos < *clientCount);
                 break;
-            case 2: // setOrderDelivered
+            case 2:
                 cleanScreen();
+                setOrderDelivered(orders, orderCount, workers[posLogged].bi);
                 break;
-            case 3: //
+            case 3:
                 cleanScreen();
+                listPendingOrdersByWorkerByDate(orders, orderCount, workers[posLogged].bi);
                 break;
             default:
                 printf(MENU_MSG_OPT_INVALID);
@@ -189,15 +338,8 @@ void manageMenuPrint() {
     puts("0. Back.");
 }
 
-void listClientOrdersMenuPrint() {
 
-}
 
-void workerHandlingMenuPrint() {
 
-}
 
-void workerDeliveryMenuPrint() {
-
-}
 

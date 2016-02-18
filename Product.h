@@ -45,7 +45,7 @@ extern "C" {
 void createProductsFile(Product products[]);
 void saveProductsFile(Product products[]);
 void readProductsFile(Product *products);
-void createProductCountFile(int *prCount);
+void createProductCountFile(int *pCount);
 void saveProductCountFile(int *pCount);
 int readProductCountFile(int *pCount);
 void setProductId(Product *products, int pos);
@@ -53,10 +53,10 @@ void setProductName(Product *products, int pos);
 void setProductDescription(Product *products, int pos);
 bool verifyIfProductsFull(int *pCount);
 int verifyIfProductIDExist(Product *products, int id, int *pCount);
-void addProduct(Product *products, int *pCount);
-void editProduct(Product *products, int *pCount);
-void removeProduct(Product *products, int *pCount);
-void listProducts(Product *products, int *pCount);
+void addProduct(Product *products, int *pCount); // HANDLING
+void editProduct(Product *products, int *pCount); // HANDLING
+void removeProduct(Product *products, int *pCount); // HANDLING
+void listProducts(Product *products, int *pCount); // HANDLING
 
 
 

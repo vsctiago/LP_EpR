@@ -63,12 +63,14 @@
 #define O_MSG_WORKER_DELIVER_BI "Insert worker deliver BI: "
 #define O_MSG_LIST_BY_DATE "List All Orders by Date: "
 #define O_MSG_LIST_FROM_CLIENT "List From Client BI: "
+#define O_MSG_ID "Insert Order ID: "
 
 // ERROR MESSAGES
 #define O_ERROR_MSG_FULL RED "ERROR: " RESET "Full, can't add more orders.\n"
 #define O_ERROR_MSG_BI_INVALID RED "ERROR: " RESET "BI invalid! \n"
 #define O_ERROR_MSG_BI_NOTFOUND RED "ERROR: " RESET "BI not found!\n"
 #define O_ERROR_MSG_ID_NOTFOUND RED "ERROR: " RESET "ID not found!\n"
+#define O_ERROR_MSG_CANNOT_REMOVE RED "ERROR: " RESET "Cannot remove orders that aren't yours or already approved."
 
 // FILE NAMES
 #define O_FILE_NAME "Orders"
@@ -133,6 +135,7 @@ void readOrdersFile(Order *orders);
 void createOrderCountFile(int *oCount);
 void saveOrderCountFile(int *oCount);
 int readProductCountFile(int *oCount);
+int verifyIfOrderIDExist(Order *orders, int id, int *oCount);
 void setOrderId(Order *orders, int pos);
 void setOrderDate(Order *orders, int pos);
 void setOrderBI(long *bi, char msg[]);
@@ -151,9 +154,9 @@ void setOrderPostalCode(Order *orders, int pos);
 void setOrderCity(Order *orders, int pos);
 void setOrderAddress(Order *orders, int pos);
 void setOrderTotalPrice(Order *orders, int pos);
-void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount);
+void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int *oCount, long workerBI, int *wCount);
 void setOrderExpectedDeliveryDate(Order *orders, int pos);
-void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int wCount);
+void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int *wCount);
 void setOrderActualDeliveryDate(Order *orders, int pos);
 void setOrderDelivered(Order *orders, int pos, long deliverymanBI);
 void addOrder(Order *orders, int pos, Client *clients, int *cCount, Product *products, int *pCount);
@@ -163,8 +166,8 @@ void listMyOrders(Order *orders, int *oCount, long clientBI);
 void listMyOrdersPendingApproval(Order *orders, int *oCount, long clientBI);
 void listMyOrdersPendingDelivery(Order *orders, int *oCount, long clientBI);
 void listAllOrdersByDate(Order *orders, int *oCount);
-void listPendingOrdersByWorkerByDate(Order *orders, int *oCount, long deliverymanBI);
-void listAllPendingProducts(Order *orders, Product *products, int *pCount, int *oCount);
+void listPendingOrdersByWorkerByDate(Order *orders, int *oCount, long deliverymanBI); // DELIVERY
+void listAllPendingApprovedProducts(Order *orders, Product *products, int *pCount, int *oCount);
 float listOrdersByTotalValueFromClient(Order *orders, Client *clients, int *oCount, int *cCount);
 bool checkDate(Date *newDate, Date *oldDate);
 

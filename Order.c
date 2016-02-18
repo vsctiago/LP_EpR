@@ -83,6 +83,16 @@ int readOrderCountFile(int *oCount) {
     }
 }
 
+int verifyIfOrderIDExist(Order *orders, int id, int *oCount) {
+    int pos;
+    for (pos = 0; pos<*oCount; pos++) {
+        if (orders[pos].id == id) {
+            return pos;
+        }
+    }
+    return EOF;
+}
+
 void setOrderId(Order *orders, int pos) {
     if (pos == 0) {
         orders[pos].id = 1;
@@ -207,34 +217,38 @@ void setOrderTotalPrice(Order *orders, int pos) {
     orders[pos].totalPrice = total;
 }
 
-void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCount) {
-    long pBi , val = EOF;
+void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int *oCount, long workerBI, int *wCount) {
+    int pos = EOF;
+    int orderID = 0;
 
     do {
-        setOrderBI(&pBi, O_MSG_WORKER_APPROVAL_BI);
-        val = verifyIfWorkerBIExist(workers, pBi, wCount);
-        if (val != EOF && workers[val].type == 1) {
-            orders[pos].approvalWorkerBI = pBi;
+        
+        readInt(&orderID, O_ID_MIN, O_ID_MAX, O_MSG_ID);
+        pos = verifyIfOrderIDExist(orders, *orderID, oCount);
+        if (pos != EOF && orders[pos].approvalWorkerBI != 0) {
+            orders[pos].approvalWorkerBI = workerBI;
             setOrderApprovalDate(orders, pos);
             setOrderExpectedDeliveryDate(orders, pos);
-            setOrderDeliveryman(orders, workers, pos, *wCount);
+            setOrderDeliveryman(orders, workers, pos, wCount);
             orders[pos].delivered = false;
+            saveOrdersFile(orders);
+            saveOrderCountFile(&pos);
         } else {
             printf(O_ERROR_MSG_BI_INVALID);
         }
-    } while (val = EOF);
+    } while (pos = EOF);
 }
 
 void setOrderExpectedDeliveryDate(Order *orders, int pos) {
     setDate(&orders[pos].expectedDeliveryDate, O_MSG_EXPECTED_DELIVERY_DATE);
 }
 
-void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int wCount) {
+void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int *wCount) {
     long delivermanBi, val = EOF;
 
     do {
         setOrderBI(&delivermanBi, O_MSG_WORKER_DELIVER_BI);
-        val = verifyIfWorkerBIExist(workers, delivermanBi, &wCount);
+        val = verifyIfWorkerBIExist(workers, delivermanBi, wCount);
         if (val != EOF && workers[val].type == 2) {
             orders[pos].deliveryman = workers[val].bi;
         } else {
@@ -247,16 +261,29 @@ void setOrderActualDeliveryDate(Order *orders, int pos) {
     setDate(&orders[pos].actualDeliveryDate, O_MSG_ACTUAL_DELIVERY_DATE);
 }
 
-void setOrderDelivered(Order *orders, int pos, long deliverymanBI) {
-    if(orders[pos].delivered == false && orders[pos].deliveryman == deliverymanBI &&
+void setOrderDelivered(Order *orders, int *oCount, long deliverymanBI) {
+    int pos, tmpID;
+    
+    readInt(&tmpID, O_ID_MIN, O_ID_MAX, O_MSG_ID);
+    pos = verifyIfOrderIDExist(orders, tmpID, oCount);
+    if(pos != EOF) {
+        if(orders[pos].delivered == false && orders[pos].deliveryman == deliverymanBI &&
             orders[pos].approvalWorkerBI != 0) {
         
-        orders[pos].delivered = true;
-        setOrderActualDeliveryDate(orders, pos);
+            orders[pos].delivered = true;
+            setOrderActualDeliveryDate(orders, pos);
+            saveOrdersFile(orders);
+            saveOrderCountFile(&pos);
+        }
+    } else {
+        printf(O_ERROR_MSG_ID_NOTFOUND);
     }
+    
 }
 
-void addOrder(Order *orders, int pos, Client *clients, int *cCount, Product *products, int *pCount) {
+void addOrder(Order *orders, int pos, Client *clients, int *cCount,
+        Product *products, int *pCount) {
+    
     setOrderId(orders, pos);
     setOrderClientBi(orders, pos, clients, cCount);
     setOrderDate(orders, pos);
@@ -265,23 +292,32 @@ void addOrder(Order *orders, int pos, Client *clients, int *cCount, Product *pro
     setOrderAddress(orders, pos);
     setOrderTotalPrice(orders, pos);
     orders[pos].approvalWorkerBI = 0;
+    saveOrdersFile(orders);
+    saveOrderCountFile(&pos);
 }
 
 void editOrder(Order *orders, int pos){
     
 }
 
-void removeOrderClient(Order *orders, int *oCount, long clientBI, int orderID){
-    int pos = 0, i = 0;
-    for(pos=0; pos<*oCount; pos++) {
-        if(orders[pos].id == orderID && orders[pos].clientBI == clientBI &&
-                orders[pos].approvalWorkerBI != 0) {
-            
+void removeOrderClient(Order *orders, int *oCount, long clientBI){
+    int pos = 0, i = 0, orderID = 0;
+    readInt(&orderID, O_ID_MIN, O_ID_MAX, O_MSG_ID);
+    
+    pos = verifyIfOrderIDExist(orders, *orderID, oCount);
+    if(pos != EOF) {
+        if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI != 0) {
             for(i=pos; i<*oCount; i++) {
                 orders[i] = orders[i + 1];
             }
             (*oCount)--;
+            saveOrdersFile(orders);
+            saveOrderCountFile(oCount);
+        } else {
+            printf(O_ERROR_MSG_CANNOT_REMOVE);
         }
+    } else {
+        printf(P_ERROR_MSG_ID_NOTFOUND);
     }
 }
 
@@ -386,7 +422,7 @@ void listPendingOrdersByWorkerByDate(Order *orders, int *oCount, long deliveryma
     }
 }
 
-void listAllPendingProducts(Order *orders, Product *products, int *pCount, int *oCount) {
+void listAllPendingApprovedProducts(Order *orders, Product *products, int *pCount, int *oCount) {
     int pPos = 0, oPos = 0, linePos = 0, totalPending = 0, tmpPid = 0;
     
     for(pPos=0; pPos<*pCount; pPos++) {

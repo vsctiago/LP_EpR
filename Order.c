@@ -275,6 +275,7 @@ void addOrder(Order *orders, int pos, Product *products, int *pCount, long clien
     setOrderId(orders, pos);
     setOrderClientBi(orders, pos, clientBI);
     setOrderDate(orders, pos);
+    listProducts(products, pCount);
     setOrderLines(orders, pos, products, pCount);
     setOrderServiceCost(orders, pos);
     setOrderAddress(orders, pos);

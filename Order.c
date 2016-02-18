@@ -137,7 +137,7 @@ void setOrderProductId(Order *orders, int pos, Product *products, int *pCount){
     long pId, val = EOF;
     
     do {
-        readLong(&pId,P_ID_MAX,P_ID_MIN,P_MSG_ID);
+        readLong(&pId,P_ID_MIN,P_ID_MAX,P_MSG_ID);
         val = verifyIfProductIDExist(products, pId, pCount);
         if (val == EOF) {
             printf(O_ERROR_MSG_ID_NOTFOUND);

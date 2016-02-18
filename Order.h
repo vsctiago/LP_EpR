@@ -159,7 +159,7 @@ void setOrderExpectedDeliveryDate(Order *orders, int pos);
 void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int *wCount);
 void setOrderActualDeliveryDate(Order *orders, int pos);
 void setOrderDelivered(Order *orders, int *oCount, long deliverymanBI);
-void addOrder(Order *orders, int pos, Product *products, int *pCount, long clientBI);
+void addOrder(Order *orders, int *oCount, Product *products, int *pCount, long clientBI);
 void editOrder(); // TODO
 void removeOrderClient(Order *orders, int *oCount, long clientBI);
 void listMyOrders(Order *orders, int *oCount, long clientBI);

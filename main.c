@@ -42,7 +42,6 @@ int main(int argc, char** argv) {
 
     mainMenu(clients, workers, orders, products, &clientCount, &workerCount, &orderCount, &productCount);
 
-
     return (EXIT_SUCCESS);
 }
 

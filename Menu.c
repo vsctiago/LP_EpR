@@ -48,7 +48,7 @@ void clientMenu(Client *clients, Order *orders, Product *products,
                     break;
                 case 2:
                     cleanScreen();
-                    addOrder(orders, *orderCounts, products, productCount, clients[posLogged].bi);
+                    addOrder(orders, orderCounts, products, productCount, clients[posLogged].bi);
                     break;
                 case 3:
                     cleanScreen();
@@ -67,17 +67,17 @@ void clientMenu(Client *clients, Order *orders, Product *products,
                     break;
                 case 6: //
                     cleanScreen();
-                    listMyOrders(orders, orderCounts, orders[posLogged].clientBI);
+                    listMyOrders(orders, orderCounts, clients[posLogged].bi);
                     printf("\n\n");
                     break;
                 case 7: //
                     cleanScreen();
-                    listMyOrdersPendingApproval(orders, orderCounts, orders[posLogged].clientBI);
+                    listMyOrdersPendingApproval(orders, orderCounts, clients[posLogged].bi);
                     printf("\n\n");
                     break;
                 case 8: //
                     cleanScreen();
-                    listMyOrdersPendingDelivery(orders, orderCounts, orders[posLogged].clientBI);
+                    listMyOrdersPendingDelivery(orders, orderCounts, clients[posLogged].bi);
                     printf("\n\n");
                     break;
                 default:
@@ -183,7 +183,7 @@ void workerHandlingProductsMenu(Product *products, int *productCount) {
 }
 
 void workerHandlingOrdersMenu(Client *clients, Worker *workers, Order *orders, Product *products, int *clientCount, int *workerCount, int *orderCount, int *productCount, int posLogged) {
-    int op;
+    int op, pos = 0;
     do {
         workerHandlingOrdersMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
@@ -192,13 +192,19 @@ void workerHandlingOrdersMenu(Client *clients, Worker *workers, Order *orders, P
                 break;
             case 1: 
                 cleanScreen();
+                pos = 0;
+                do {
+                    listMyOrdersPendingApproval(orders, orderCount, clients[pos].bi);
+                    pos++;
+                } while(pos < *clientCount);
                 setOrderApprovalWorkerBI(orders, workers, orderCount, workers[posLogged].bi, workerCount);
                 break;
             case 2: 
                 cleanScreen();
-                int pos = 0;
+                pos = 0;
                 do {
                     listMyOrders(orders, orderCount, clients[pos].bi);
+                    pos++;
                 } while(pos < *clientCount);
                 break;
             case 3: 
@@ -207,14 +213,18 @@ void workerHandlingOrdersMenu(Client *clients, Worker *workers, Order *orders, P
                 break;
             case 4: 
                 cleanScreen();
+                pos = 0;
                 do {
                     listMyOrdersPendingApproval(orders, orderCount, clients[pos].bi);
+                    pos++;
                 } while(pos < *clientCount);
                 break;
             case 5: 
                 cleanScreen();
+                pos = 0;
                 do {
                     listMyOrdersPendingDelivery(orders, orderCount, clients[pos].bi);
+                    pos++;
                 } while(pos < *clientCount);
                 break;
             case 6: 
@@ -286,6 +296,7 @@ void workerHandlingWorkersMenu(Worker *workers, int *workerCount) {
 void workerDeliveryMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount, int posLogged) {
     int op, pos = 0;
     do {
+        pos = 0;
         workerDeliveryMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
         switch (op) {
@@ -295,10 +306,15 @@ void workerDeliveryMenu(Client *clients, Worker *workers, Order *orders, int *cl
                 cleanScreen();
                 do {
                     listMyOrdersPendingDelivery(orders, orderCount, clients[pos].bi);
+                    pos++;
                 } while(pos < *clientCount);
                 break;
             case 2:
                 cleanScreen();
+                do {
+                    listMyOrdersPendingDelivery(orders, orderCount, clients[pos].bi);
+                    pos++;
+                } while(pos < *clientCount);
                 setOrderDelivered(orders, orderCount, workers[posLogged].bi);
                 break;
             case 3:

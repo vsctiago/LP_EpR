@@ -52,8 +52,8 @@ void clientMenu(Client *clients, Order *orders, Product *products,
                     break;
                 case 3:
                     cleanScreen();
-                    listMyOrders(orders, *orderCounts, clients[posLogged].bi);
-                    removeOrderClient(orders, *orderCounts, clients[posLogged].bi);
+                    listMyOrders(orders, orderCounts, clients[posLogged].bi);
+                    removeOrderClient(orders, orderCounts, clients[posLogged].bi);
                     break;
                 case 4: //
                     cleanScreen();
@@ -132,7 +132,7 @@ void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, Product
                 break;
             case 1: 
                 cleanScreen();
-                workerHandlingProductsMenu(Product, productCount);
+                workerHandlingProductsMenu(products, productCount);
                 break;
             case 2: 
                 cleanScreen();
@@ -144,7 +144,7 @@ void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, Product
                 break;
             case 4: 
                 cleanScreen();
-                workerHandlingWorkersMenu(Worker, workerCount);
+                workerHandlingWorkersMenu(workers, workerCount);
                 break;
             default:
                 printf(MENU_MSG_OPT_INVALID);
@@ -192,7 +192,7 @@ void workerHandlingOrdersMenu(Client *clients, Worker *workers, Order *orders, P
                 break;
             case 1: 
                 cleanScreen();
-                setOrderApprovalWorkerBI(orders, workers, *orderCount, workers[posLogged].bi, workerCount);
+                setOrderApprovalWorkerBI(orders, workers, orderCount, workers[posLogged].bi, workerCount);
                 break;
             case 2: 
                 cleanScreen();

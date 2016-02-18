@@ -158,10 +158,10 @@ void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int *oCount, long 
 void setOrderExpectedDeliveryDate(Order *orders, int pos);
 void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int *wCount);
 void setOrderActualDeliveryDate(Order *orders, int pos);
-void setOrderDelivered(Order *orders, int pos, long deliverymanBI);
+void setOrderDelivered(Order *orders, int *oCount, long deliverymanBI);
 void addOrder(Order *orders, int pos, Client *clients, int *cCount, Product *products, int *pCount);
 void editOrder(); // TODO
-void removeOrderClient(Order *orders, int *oCount, long clientBI, int orderID);
+void removeOrderClient(Order *orders, int *oCount, long clientBI);
 void listMyOrders(Order *orders, int *oCount, long clientBI);
 void listMyOrdersPendingApproval(Order *orders, int *oCount, long clientBI);
 void listMyOrdersPendingDelivery(Order *orders, int *oCount, long clientBI);

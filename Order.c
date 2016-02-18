@@ -224,7 +224,7 @@ void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int *oCount, long 
     do {
         
         readInt(&orderID, O_ID_MIN, O_ID_MAX, O_MSG_ID);
-        pos = verifyIfOrderIDExist(orders, *orderID, oCount);
+        pos = verifyIfOrderIDExist(orders, orderID, oCount);
         if (pos != EOF && orders[pos].approvalWorkerBI != 0) {
             orders[pos].approvalWorkerBI = workerBI;
             setOrderApprovalDate(orders, pos);
@@ -304,7 +304,7 @@ void removeOrderClient(Order *orders, int *oCount, long clientBI){
     int pos = 0, i = 0, orderID = 0;
     readInt(&orderID, O_ID_MIN, O_ID_MAX, O_MSG_ID);
     
-    pos = verifyIfOrderIDExist(orders, *orderID, oCount);
+    pos = verifyIfOrderIDExist(orders, orderID, oCount);
     if(pos != EOF) {
         if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI != 0) {
             for(i=pos; i<*oCount; i++) {

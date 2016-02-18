@@ -134,7 +134,7 @@ void saveOrdersFile(Order orders[]);
 void readOrdersFile(Order *orders);
 void createOrderCountFile(int *oCount);
 void saveOrderCountFile(int *oCount);
-int readProductCountFile(int *oCount);
+int readOrderCountFile(int *oCount);
 int verifyIfOrderIDExist(Order *orders, int id, int *oCount);
 void setOrderId(Order *orders, int pos);
 void setOrderDate(Order *orders, int pos);

@@ -34,6 +34,10 @@ int main(int argc, char** argv) {
     readClientCountFile(&clientCount);
     readWorkersFile(workers);
     readWorkerCountFile(&workerCount);
+    readOrdersFile(orders);
+    readOrderCountFile(&orderCount);
+    readProductsFile(products);
+    readProductCountFile(&productCount);
     
 
     mainMenu(clients, workers, orders, products, &clientCount, &workerCount, &orderCount, &productCount);

@@ -35,13 +35,23 @@ void mainMenu(Client *clients, Worker *workers, Order *orders, Product *products
         int *clientCount, int *workerCount, int *orderCount, int *productCount);
 void clientMenu(Client *clients, Order *orders, Product *products,
         int *clientCount, int *orderCounts, int *productCount);
-void manageMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount);
-void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount);
-void workerDeliveryMenu();
+void manageMenu(Client *clients, Worker *workers, Order *orders, Product *products,
+        int *clientCount, int *workerCount, int *orderCount, int *productCount);
+void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, Product *products,
+        int *clientCount, int *workerCount, int *orderCount, int *productCount, unsigned int posLogged);
+void workerHandlingProductsMenu(Product *products, int *productCount);
+void workerHandlingOrdersMenu(Client *clients, Worker *workers, Order *orders, Product *products, int *clientCount, int *workerCount, int *orderCount, int *productCount, int posLogged);
+void workerHandlingClientsMenu(Client *clients, int *clientCount);
+void workerHandlingWorkersMenu(Worker *workers, int *workerCount);
+void workerDeliveryMenu(Client *clients, Worker *workers, Order *orders, int *clientCount, int *workerCount, int *orderCount, int posLogged);
 void mainMenuPrint();
 void clientMenuPrint();
 void manageMenuPrint();
 void workerHandlingMenuPrint();
+void workerHandlingProductsMenuPrint();
+void workerHandlingOrdersMenuPrint();
+void workerHandlingClientsMenuPrint();
+void workerHandlingWorkersMenuPrint();
 void workerDeliveryMenuPrint();
 
 

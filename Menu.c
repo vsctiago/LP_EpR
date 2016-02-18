@@ -155,7 +155,7 @@ void workerHandlingMenu(Client *clients, Worker *workers, Order *orders, Product
 void workerHandlingProductsMenu(Product *products, int *productCount) {
     int op;
     do {
-        //workerHandlingProductsMenuPrint();
+        workerHandlingProductsMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
         switch (op) {
             case 0: //exit
@@ -185,7 +185,7 @@ void workerHandlingProductsMenu(Product *products, int *productCount) {
 void workerHandlingOrdersMenu(Client *clients, Worker *workers, Order *orders, Product *products, int *clientCount, int *workerCount, int *orderCount, int *productCount, int posLogged) {
     int op;
     do {
-        // workerHandlingOrdersMenuPrint();
+        workerHandlingOrdersMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
         switch (op) {
             case 0: //exit
@@ -234,7 +234,7 @@ void workerHandlingOrdersMenu(Client *clients, Worker *workers, Order *orders, P
 void workerHandlingClientsMenu(Client *clients, int *clientCount) {
     int op;
     do {
-        //workerHandlingClientsMenuPrint();
+        workerHandlingClientsMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
         switch (op) {
             case 0: //exit
@@ -260,7 +260,7 @@ void workerHandlingClientsMenu(Client *clients, int *clientCount) {
 void workerHandlingWorkersMenu(Worker *workers, int *workerCount) {
     int op;
     do {
-        //workerHandlingWorkersMenuPrint();
+        workerHandlingWorkersMenuPrint();
         readInt(&op, MENU_OPT_MIN, MENU_OPT_MAX, MENU_MSG_OPT);
         switch (op) {
             case 0: //exit
@@ -323,11 +323,12 @@ void clientMenuPrint() {
     puts("## Client Menu ##");
     puts("1. List Products");
     puts("2. Add Order");
-    puts("3. List My Client");
-    puts("4. Edit My Client");
-    puts("5. List My Orders");
-    puts("6. List My Orders Pending Approval");
-    puts("7. List My Orders Pending Delivery");
+    puts("3. Remove Order");
+    puts("4. List Profile");
+    puts("5. Edit Profile");
+    puts("6. List My Orders");
+    puts("7. List My Orders Pending Approval");
+    puts("8. List My Orders Pending Delivery");
     puts("0. Back.");
 }
 
@@ -338,8 +339,58 @@ void manageMenuPrint() {
     puts("0. Back.");
 }
 
+void workerHandlingMenuPrint() {
+    puts("## Worker Handling Menu ##");
+    puts("1. Product Menu.");
+    puts("2. Order Menu.");
+    puts("3. Client Menu.");
+    puts("4. Worker Menu.");
+    puts("0. Back.");
+}
 
+void workerHandlingProductsMenuPrint() {
+    puts("## Worker Handling Products Menu ##");
+    puts("1. Add Product.");
+    puts("2. Edit Product.");
+    puts("3. Remove Product.");
+    puts("4. List Products.");
+    puts("0. Back.");
+}
 
+void workerHandlingOrdersMenuPrint() {
+    puts("## Worker Handling Orders Menu ##");
+    puts("1. Approve Order.");
+    puts("2. List All Orders.");
+    puts("3. List Orders By Date.");
+    puts("4. List All Orders Pending Approval.");
+    puts("5. List All Orders Pending Delivery.");
+    puts("6. List All Pending Products in Approved Orders.");
+    puts("7. List All Orders and Total Value from Client.");
+    puts("0. Back.");
+}
 
+void workerHandlingClientsMenuPrint() {
+    puts("## Worker Handling Clients Menu ##");
+    puts("1. List Clients.");
+    puts("2. Edit Client.");
+    puts("3. Remove Client.");
+    puts("0. Back.");
+}
+
+void workerHandlingWorkersMenuPrint() {
+    puts("## Worker Handling Workers Menu ##");
+    puts("1. List Workers.");
+    puts("2. Edit Worker.");
+    puts("3. Remove Worker.");
+    puts("0. Back.");
+}
+
+void workerDeliveryMenuPrint() {
+    puts("## Worker Delivery Menu ##");
+    puts("1. List All Orders Pending Delivery.");
+    puts("2. Confirm Order Delivery.");
+    puts("3. List All Pending Orders By Date.");
+    puts("0. Back.");
+}
 
 

@@ -217,6 +217,7 @@ void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int *oCount, long 
         if (pos != EOF && orders[pos].approvalWorkerBI != 0) {
             orders[pos].approvalWorkerBI = workerBI;
             setOrderApprovalDate(orders, pos);
+            setOrderServiceCost(orders, pos);
             setOrderExpectedDeliveryDate(orders, pos);
             setOrderDeliveryman(orders, workers, pos, wCount);
             orders[pos].delivered = false;
@@ -277,7 +278,6 @@ void addOrder(Order *orders, int pos, Product *products, int *pCount, long clien
     setOrderDate(orders, pos);
     listProducts(products, pCount);
     setOrderLines(orders, pos, products, pCount);
-    setOrderServiceCost(orders, pos);
     setOrderAddress(orders, pos);
     setOrderTotalPrice(orders, pos);
     orders[pos].approvalWorkerBI = 0;

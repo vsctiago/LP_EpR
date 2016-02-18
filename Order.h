@@ -51,7 +51,7 @@
 #define O_MSG_DATE_YEAR "\tyear: "
 #define O_MSG_DATE_MONTH "\tmonth: "
 #define O_MSG_DATE_DAY "\tday: "
-#define O_MSG_ADDMORE_LINES "Want to add more? [1]Yes | [2]No : "
+#define O_MSG_ADDMORE_LINES "Want to add more? [1]Yes | [0]No : "
 #define O_MSG_SERICECOST "Insert service cost: "
 #define O_MSG_STREET "Insert street: "
 #define O_MSG_NUMBER "Insert street number: "

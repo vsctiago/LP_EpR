@@ -23,8 +23,8 @@ extern "C" {
 #define P_PRICE_MAX 10000
 
     // MESSAGES FOR INPUTS
-#define P_MSG_BI "Insert id: "
-#define P_MSG_ID "Insert id: "
+#define P_MSG_BI "Insert product id: "
+#define P_MSG_ID "Insert product id: "
 #define P_MSG_NAME "Insert name: "
 #define P_MSG_DESCRIPTION "Insert description: "
 #define P_MSG_PRICE "Insert Unit Price: "

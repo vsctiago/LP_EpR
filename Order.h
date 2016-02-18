@@ -61,6 +61,8 @@
 #define O_MSG_CITY "Insert City: "
 #define O_MSG_WORKER_APPROVAL_BI "Insert worker approval BI: "
 #define O_MSG_WORKER_DELIVER_BI "Insert worker deliver BI: "
+#define O_MSG_LIST_BY_DATE "List All Orders by Date: "
+#define O_MSG_LIST_FROM_CLIENT "List From Client BI: "
 
 // ERROR MESSAGES
 #define O_ERROR_MSG_FULL RED "ERROR: " RESET "Full, can't add more orders.\n"
@@ -153,10 +155,13 @@ void setOrderApprovalWorkerBI(Order *orders, Worker *workers, int pos, int *wCou
 void setOrderExpectedDeliveryDate(Order *orders, int pos);
 void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int wCount);
 void setOrderActualDeliveryDate(Order *orders, int pos);
-void addOrder();
-void editOrder();
-void removeOrder();
-void listOrder();
+void addOrder(Order *orders, int pos, Client *clients, int *cCount, Product *products, int *pCount);
+void editOrder(); // TODO
+void removeOrderClient(Order *orders, int *oCount, long clientBI, int orderID);
+void listMyOrders(Order *orders, int *oCount, long clientBI);
+void listMyOrdersPendingApproval(Order *orders, int *oCount, long clientBI);
+void listMyOrdersPendingDelivery(Order *orders, int *oCount, long clientBI);
+void listAllOrdersByDate(Order *orders, int *oCount);
 bool checkDate(Date *newDate, Date *oldDate);
 
 

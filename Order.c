@@ -272,19 +272,33 @@ void editOrder(Order *orders, int pos){
 }
 
 void removeOrderClient(Order *orders, int *oCount, long clientBI, int orderID){
-    //percorrer orders
-    //verificar clientBI == order.clientBI
-    //se sim verificar se orders[pos].approvalWorkerBI != 0
-    //remover e oCount--;
+    int pos = 0, i = 0;
+    for(pos=0; pos<*oCount; pos++) {
+        if(orders[pos].id == orderID && orders[pos].clientBI == clientBI &&
+                orders[pos].approvalWorkerBI != 0) {
+            
+            for(i=pos; i<*oCount; i++) {
+                orders[i] = orders[i + 1];
+            }
+            (*oCount)--;
+        }
+    }
 }
 
 void listMyOrders(Order *orders, int *oCount, long clientBI) {
     int pos = 0;
+    
     for(pos=0; pos<*oCount; pos++) {
         if(orders[pos].clientBI == clientBI) {
-            printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
-                    orders[pos].orderDate.day, orders[pos].orderDate.month,
-                    orders[pos].orderDate.year, orders[pos].totalPrice);
+            printf("[%d] BI: %ld | "
+                    "OrderDate: %d/%d/%d | "
+                    "Total: %.2f",
+                    orders[pos].id,
+                    orders[pos].clientBI,
+                    orders[pos].orderDate.day,
+                    orders[pos].orderDate.month,
+                    orders[pos].orderDate.year,
+                    orders[pos].totalPrice);
         }
     }
 }
@@ -293,9 +307,15 @@ void listMyOrdersPendingApproval(Order *orders, int *oCount, long clientBI) {
     int pos = 0;
     for(pos=0; pos<*oCount; pos++) {
         if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI == 0) {
-            printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
-                    orders[pos].orderDate.day, orders[pos].orderDate.month,
-                    orders[pos].orderDate.year, orders[pos].totalPrice);
+            printf("[%d] BI: %ld | "
+                    "OrderDate: %d/%d/%d | "
+                    "Total: %.2f",
+                    orders[pos].id,
+                    orders[pos].clientBI,
+                    orders[pos].orderDate.day,
+                    orders[pos].orderDate.month,
+                    orders[pos].orderDate.year,
+                    orders[pos].totalPrice);
         }
     }
 }
@@ -303,12 +323,115 @@ void listMyOrdersPendingApproval(Order *orders, int *oCount, long clientBI) {
 void listMyOrdersPendingDelivery(Order *orders, int *oCount, long clientBI) {
     int pos = 0;
     for(pos=0; pos<*oCount; pos++) {
-        if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI != 0 && orders[pos].delivered == 0) {
-            printf("[%d] BI: %ld | OrderDate: %d/%d/%d | Total: %.2f", orders[pos].id, orders[pos].clientBI,
-                    orders[pos].orderDate.day, orders[pos].orderDate.month,
-                    orders[pos].orderDate.year, orders[pos].totalPrice);
+        if(orders[pos].clientBI == clientBI && orders[pos].approvalWorkerBI != 0 &&
+                orders[pos].delivered == 0) {
+            
+            printf("[%d] BI: %ld | "
+                    "OrderDate: %d/%d/%d | "
+                    "Total: %.2f",
+                    orders[pos].id,
+                    orders[pos].clientBI,
+                    orders[pos].orderDate.day,
+                    orders[pos].orderDate.month,
+                    orders[pos].orderDate.year,
+                    orders[pos].totalPrice);
         }
     }
+}
+
+void listAllOrdersByDate(Order *orders, int *oCount) {
+    Date date;
+    int pos = 0;
+    
+    setDate(&date, O_MSG_LIST_BY_DATE);
+    for(pos = 0; pos<*oCount; pos++) {
+        if(orders[pos].expectedDeliveryDate.year == date.year &&
+                orders[pos].expectedDeliveryDate.month == date.month &&
+                orders[pos].expectedDeliveryDate.day == date.day) {
+            
+            printf("---------------------------");
+            printf("[%d] BI: %ld | "
+                    "OrderDate: %d/%d/%d | "
+                    "Total: %.2f",
+                    orders[pos].id, orders[pos].clientBI,
+                    orders[pos].orderDate.day,
+                    orders[pos].orderDate.month,
+                    orders[pos].orderDate.year,
+                    orders[pos].totalPrice);
+        }
+    }
+}
+
+void listPendingOrdersByWorkerByDate(Order *orders, int *oCount, long deliverymanBI) {
+    Date date;
+    int pos = 0;
+    
+    setDate(&date, O_MSG_LIST_BY_DATE);
+    for(pos = 0; pos<*oCount; pos++) {
+        if(orders[pos].deliveryman == deliverymanBI &&
+                orders[pos].expectedDeliveryDate.year == date.year &&
+                orders[pos].expectedDeliveryDate.month == date.month &&
+                orders[pos].expectedDeliveryDate.day == date.day) {
+            
+            printf("---------------------------");
+            printf("[%d] BI: %ld | "
+                    "OrderDate: %d/%d/%d | "
+                    "Total: %.2f",
+                    orders[pos].id, orders[pos].clientBI,
+                    orders[pos].orderDate.day,
+                    orders[pos].orderDate.month,
+                    orders[pos].orderDate.year,
+                    orders[pos].totalPrice);
+        }
+    }
+}
+
+void listAllPendingProducts(Order *orders, Product *products, int *pCount, int *oCount) {
+    int pPos = 0, oPos = 0, linePos = 0, totalPending = 0, tmpPid = 0;
+    
+    for(pPos=0; pPos<*pCount; pPos++) {
+        tmpPid = products[pPos].id;
+        for(oPos=0; oPos<*oCount; oPos++) {
+            if(orders[oPos].approvalWorkerBI != 0 && orders[oPos].delivered == false) {
+                for(linePos=0; linePos<orders[oPos].contLines; linePos++) {
+                    if(orders[oPos].lines[linePos].idProduct == tmpPid) {
+                        totalPending++;
+                    }
+                }
+            }
+        }
+        printf("Product ID: [%d] |"
+                "Total Pending: %d",
+                tmpPid,
+                totalPending);
+        
+        totalPending = 0;
+    }
+}
+
+float listOrdersByTotalValueFromClient(Order *orders, Client *clients, int *oCount, int *cCount) {
+    int oPos = 0, pos = 0;
+    float totalValue = 0;
+    long tmpBI;
+    
+    setOrderBI(&tmpBI, O_MSG_LIST_FROM_CLIENT);
+    pos = verifyIfClientBIExist(clients, tmpBI, cCount);
+    if(pos != EOF) {
+        for(oPos=0; oPos<*oCount; oPos++) {
+            if(orders[oPos].clientBI == tmpBI) {
+                printf("Order ID: [%d] | "
+                        "Total: %.2f",
+                        orders[oPos].id,
+                        orders[oPos].totalPrice);
+
+                totalValue += orders[oPos].totalPrice;
+            }
+        }
+        printf("Total Value from all Order: %f", totalValue);
+    } else {
+        printf(C_ERROR_MSG_BI_NOTFOUND);
+    }
+    return totalValue;
 }
 
 bool checkDate(Date *newDate, Date *oldDate) {

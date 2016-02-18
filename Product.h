@@ -19,12 +19,15 @@ extern "C" {
 #define P_ID_MAX 9999999
 #define P_NAME_LENGTH 50+1
 #define P_DESCRIPTION_LENGTH 200+1
+#define P_PRICE_MIN 0.01f
+#define P_PRICE_MAX 10000
 
     // MESSAGES FOR INPUTS
 #define P_MSG_BI "Insert id: "
 #define P_MSG_ID "Insert id: "
 #define P_MSG_NAME "Insert name: "
 #define P_MSG_DESCRIPTION "Insert description: "
+#define P_MSG_PRICE "Insert Unit Price: "
 
     // ERROR MESSAGES
 #define P_ERROR_MSG_FULL "ERROR: Full, can't add more product.\n"

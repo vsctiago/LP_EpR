@@ -48,7 +48,7 @@ void clientMenu(Client *clients, Order *orders, Product *products,
                     break;
                 case 2:
                     cleanScreen();
-                    addOrder(orders, *orderCounts, clients, clientCount, products, productCount);
+                    addOrder(orders, *orderCounts, products, productCount, clients[posLogged].bi);
                     break;
                 case 3:
                     cleanScreen();

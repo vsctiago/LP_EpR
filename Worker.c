@@ -83,6 +83,10 @@ void setWorkerName(Worker *workers, int pos) {
     readString(workers[pos].name, W_NAME_LENGTH, W_MSG_NAME);
 }
 
+void setWorkerPassword(Worker *workers, int pos) {
+    readString(workers[pos].password, W_PASSWORD_LENGTH, W_MSG_PASSWORD);
+}
+
 void setWorkerType(Worker *workers, int pos) {
     int temp;
     printf("%s", W_MSG_WORKER_TYPE);
@@ -141,6 +145,7 @@ void addWorker(Worker *workers, int *wCount) {
         if (verifyIfWorkerBIExist(workers, wBI, wCount) == EOF) {
             workers[*wCount].bi = wBI;
             setWorkerName(workers, *wCount);
+            setWorkerPassword(workers, *wCount);
             setWorkerType(workers, *wCount);
             *wCount += 1;
             saveWorkersFile(workers);
@@ -155,7 +160,12 @@ void listAllWorkers(Worker *workers, int *wCount) {
     int pos;
 
     for (pos = 0; pos<*wCount; pos++) {
-        printf("[%d] BI: %ld | %s \t| \n", pos, workers[pos].bi, workers[pos].name, workers[pos].type);
+        printf("[%d] BI: %ld | %s \t| Type: ", pos, workers[pos].bi, workers[pos].name);
+        if(workers[pos].type == 1) {
+            printf("Handling\n");
+        } else {
+            printf("Delivery\n");
+        }
     }
 }
 

@@ -109,19 +109,8 @@ void setOrderBI(long *bi, char msg[]) {
     readLong(bi, C_BI_MIN, C_BI_MAX, msg);
 }
 
-void setOrderClientBi(Order *orders, int pos, Client *clients, int *cCount) {
-    long pBi, verify = EOF;
-
-    do {
-        setOrderBI(&pBi, O_MSG_CLIENT_BI);
-        verify = verifyIfClientBIExist(clients, pBi, cCount);
-        if (verify == EOF) {
-            printf(O_ERROR_MSG_BI_NOTFOUND);
-        } else {
-            orders[pos].clientBI = pBi;
-            setOrderDate(orders, pos);
-        }
-    } while (verify = EOF);
+void setOrderClientBi(Order *orders, int pos, long clientBI) {
+    orders[pos].clientBI = clientBI;
 }
 
 void setOrderApprovalDate(Order *orders, int pos) {
@@ -281,11 +270,10 @@ void setOrderDelivered(Order *orders, int *oCount, long deliverymanBI) {
     
 }
 
-void addOrder(Order *orders, int pos, Client *clients, int *cCount,
-        Product *products, int *pCount) {
+void addOrder(Order *orders, int pos, Product *products, int *pCount, long clientBI) {
     
     setOrderId(orders, pos);
-    setOrderClientBi(orders, pos, clients, cCount);
+    setOrderClientBi(orders, pos, clientBI);
     setOrderDate(orders, pos);
     setOrderLines(orders, pos, products, pCount);
     setOrderServiceCost(orders, pos);

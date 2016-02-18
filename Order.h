@@ -139,7 +139,7 @@ int verifyIfOrderIDExist(Order *orders, int id, int *oCount);
 void setOrderId(Order *orders, int pos);
 void setOrderDate(Order *orders, int pos);
 void setOrderBI(long *bi, char msg[]);
-void setOrderClientBi(Order *orders, int pos, Client *c, int *cCount);
+void setOrderClientBi(Order *orders, int pos, long clientBI);
 void setOrderApprovalDate(Order *orders, int pos);
 void setCurrentDate(Date *date);
 void setDate(Date *date, char msgDate[]);
@@ -159,7 +159,7 @@ void setOrderExpectedDeliveryDate(Order *orders, int pos);
 void setOrderDeliveryman(Order *orders, Worker *workers, int pos, int *wCount);
 void setOrderActualDeliveryDate(Order *orders, int pos);
 void setOrderDelivered(Order *orders, int *oCount, long deliverymanBI);
-void addOrder(Order *orders, int pos, Client *clients, int *cCount, Product *products, int *pCount);
+void addOrder(Order *orders, int pos, Product *products, int *pCount, long clientBI);
 void editOrder(); // TODO
 void removeOrderClient(Order *orders, int *oCount, long clientBI);
 void listMyOrders(Order *orders, int *oCount, long clientBI);

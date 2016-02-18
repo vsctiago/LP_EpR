@@ -95,6 +95,10 @@ void setProductDescription(Product *products, int pos) {
     readString(products[pos].description, P_DESCRIPTION_LENGTH, P_MSG_DESCRIPTION);
 }
 
+void setProductPrice(Product *products, int pos) {
+    readFloat(&products[pos].pricePerUnit, P_PRICE_MIN, P_PRICE_MAX, P_MSG_PRICE);
+}
+
 bool verifyIfProductsFull(int *pCount) {
     if (*pCount == PRODUCTS_SIZE) {
         puts(P_ERROR_MSG_FULL);
@@ -119,6 +123,7 @@ void addProduct(Product *products, int *pCount) {
         setProductId(products, *pCount);
         setProductName(products, *pCount);
         setProductDescription(products, *pCount);
+        setProductPrice(products, *pCount);
         (*pCount)++;
         saveProductsFile(products);
         saveProductCountFile(pCount);
@@ -163,9 +168,10 @@ void listProducts(Product *products, int *pCount) {
     int pos;
 
     for (pos = 0; pos<*pCount; pos++) {
-        printf("\n->Position [%d]\n");
+        printf("\n->Position [%d]\n", pos);
         printf("\tProduct ID:\t%d\n", products[pos].id);
         printf("\tProduct NAME:\t%s\n", products[pos].name);
         printf("\tProduct DESCRIPTION:\t%s\n", products[pos].description);
+        printf("\tProduct PRICE:\t%.2f\n", products[pos].pricePerUnit);
     }
 }

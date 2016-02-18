@@ -59,6 +59,7 @@ void createWorkerCountFile(int *wCount);
 void saveWorkerCountFile(int *wCount);
 int readWorkerCountFile(int *wCount);
 void setWorkerName(Worker *workers, int pos);
+void setWorkerPassword(Worker *workers, int pos);
 void setWorkerType(Worker *workers, int pos);
 bool verifyIfWorkersFull(int *wCount);
 int verifyIfWorkerBIExist(Worker *workers, long bi, int *wCount);

@@ -39,9 +39,9 @@ void readOrdersFile(Order *orders) {
         printf("Creating %s file now...\n", O_FILE_NAME);
         createOrdersFile(orders);
         printf("%s file created\n", O_FILE_NAME);
-        //readOrderFile(p); 
+        readOrdersFile(orders); 
     } else {
-        fread(orders, sizeof (Product), ORDERS_SIZE, pOrders);
+        fread(orders, sizeof (Order), ORDERS_SIZE, pOrders);
         fclose(pOrders);
     }
 }
@@ -76,7 +76,7 @@ int readOrderCountFile(int *oCount) {
         printf("Creating %s file now...\n", O_FILE_NAME_COUNT);
         createOrderCountFile(oCount);
         printf("%s file created\n", O_FILE_NAME_COUNT);
-        //readOrderCountFile(prCount);
+        readOrderCountFile(oCount);
     } else {
         fread(oCount, sizeof (int), 1, pOcount);
         fclose(pOcount);

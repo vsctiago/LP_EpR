@@ -35,7 +35,7 @@ void readProductsFile(Product *products) {
         printf("Creating %s file now...\n", P_FILE_NAME);
         createProductsFile(products);
         printf("%s file created\n", P_FILE_NAME);
-        //readProductFile(products); 
+        readProductsFile(products); 
     } else {
         fread(products, sizeof (Product), PRODUCTS_SIZE, pProducts);
         fclose(pProducts);
@@ -72,7 +72,7 @@ int readProductCountFile(int *pCount) {
         printf("Creating %s file now...\n", P_FILE_NAME_COUNT);
         createProductCountFile(pCount);
         printf("%s file created\n", P_FILE_NAME_COUNT);
-        //readProductCountFile(pPCount);
+        readProductCountFile(pCount);
     } else {
         fread(pCount, sizeof (int), 1, pPcount);
         fclose(pPcount);
